@@ -1,0 +1,10 @@
+{
+  "homepage": {
+    "title": "Welcome to Chakrawarti Empire",
+    "subtitle": "Discover the wisdom of great poets"
+  },
+  "poets": {
+    "title": "Famous Poets",
+    "description": "Explore poetry from different eras"
+  }
+}

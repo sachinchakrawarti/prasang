@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "home": "Home",
+    "poets": "Poets",
+    "about": "About Us",
+    "contact": "Contact"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "buttons": {
+    "explore": "Explore Now",
+    "readMore": "Read More"
+  }
+}
