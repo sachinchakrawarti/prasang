@@ -1,89 +1,159 @@
+// src/public_app/layout/navbar/components/ThemeSwitcher.jsx
 import { useState } from "react";
-import { FaPalette } from "react-icons/fa";
+import { FaPalette, FaCheck } from "react-icons/fa";
+import { useTheme } from "../../../../theme";
 
-const themes = [
-  { name: "Light", icon: "☀️", gradient: "from-amber-50 to-white" },
-  { name: "Dark", icon: "🌙", gradient: "from-gray-900 to-gray-800" },
-  { name: "Forest", icon: "🌲", gradient: "from-green-50 to-emerald-100" },
-  { name: "Ocean", icon: "🌊", gradient: "from-blue-50 to-cyan-100" },
-  { name: "Sunset", icon: "🌅", gradient: "from-orange-50 to-rose-100" },
-  { name: "Lavender", icon: "🌸", gradient: "from-purple-50 to-pink-100" },
-];
+const themeConfig = {
+  light: {
+    name: "Light",
+    icon: "☀️",
+    gradient: "from-amber-400 to-yellow-400",
+    bg: "bg-amber-50",
+    hoverBg: "hover:bg-amber-100",
+    border: "border-amber-200",
+    accent: "text-amber-600",
+  },
+  dark: {
+    name: "Dark",
+    icon: "🌙",
+    gradient: "from-gray-700 to-gray-900",
+    bg: "bg-gray-800",
+    hoverBg: "hover:bg-gray-700",
+    border: "border-gray-700",
+    accent: "text-amber-400",
+  },
+  forest: {
+    name: "Forest",
+    icon: "🌲",
+    gradient: "from-green-500 to-emerald-600",
+    bg: "bg-green-50",
+    hoverBg: "hover:bg-green-100",
+    border: "border-green-200",
+    accent: "text-green-600",
+  },
+  lavender: {
+    name: "Lavender",
+    icon: "🌸",
+    gradient: "from-purple-400 to-pink-400",
+    bg: "bg-purple-50",
+    hoverBg: "hover:bg-purple-100",
+    border: "border-purple-200",
+    accent: "text-purple-600",
+  },
+  rose: {
+    name: "Rose",
+    icon: "🌹",
+    gradient: "from-rose-400 to-pink-500",
+    bg: "bg-rose-50",
+    hoverBg: "hover:bg-rose-100",
+    border: "border-rose-200",
+    accent: "text-rose-600",
+  },
+  sepia: {
+    name: "Sepia",
+    icon: "📜",
+    gradient: "from-amber-600 to-yellow-700",
+    bg: "bg-amber-100",
+    hoverBg: "hover:bg-amber-200",
+    border: "border-amber-300",
+    accent: "text-amber-700",
+  },
+};
 
-const ThemeSwitcher = ({ mobile = false, onSelect }) => {
+const ThemeSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleSelect = (theme) => {
-    console.log("Theme selected:", theme.name);
-    if (onSelect) onSelect(theme);
-    setIsOpen(false);
-  };
-
-  /* ---------------- MOBILE VERSION ---------------- */
-
-  if (mobile) {
-    return (
-      <div className="border-t border-amber-200 dark:border-amber-800 pt-4 mt-4 px-3">
-        <div className="flex items-center gap-2 mb-3 text-sm font-semibold text-amber-600 dark:text-amber-400">
-          <FaPalette />
-          Theme
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {themes.map((theme) => (
-            <button
-              key={theme.name}
-              onClick={() => handleSelect(theme)}
-              className="flex flex-col items-center justify-center gap-1 py-3 rounded-xl bg-white dark:bg-gray-800 border border-amber-100 dark:border-amber-800 shadow-sm active:scale-95 transition"
-            >
-              <span className="text-xl">{theme.icon}</span>
-
-              <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                {theme.name}
-              </span>
-
-              <span
-                className={`w-6 h-2 rounded-full bg-gradient-to-r ${theme.gradient}`}
-              ></span>
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  /* ---------------- DESKTOP VERSION ---------------- */
+  const { themeName, setTheme, theme } = useTheme();
+  const currentTheme = themeConfig[themeName];
 
   return (
-    <div className="relative hidden sm:block">
+    <div className="relative">
+      {/* Theme toggle button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 text-amber-600 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30 rounded-full transition-all"
+        className={`p-2 ${theme.text.accent} ${theme.background.cardHover} rounded-full transition-all group`}
+        aria-label="Switch theme"
       >
-        <FaPalette size={18} />
+        <FaPalette
+          size={18}
+          className="group-hover:rotate-12 transition-transform"
+        />
       </button>
 
+      {/* Dropdown menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-xl border border-amber-200 dark:border-amber-800 py-2 z-50">
-          <div className="px-4 py-2 text-sm text-amber-600 dark:text-amber-400 border-b border-amber-200 dark:border-amber-800 font-medium">
-            Choose Theme
+        <div
+          className={`absolute right-0 mt-2 w-72 ${theme.background.card} rounded-2xl shadow-xl border ${theme.border.accent} p-4 z-50`}
+        >
+          {/* Header */}
+          <h3
+            className={`text-sm font-semibold ${theme.text.primary} mb-3 flex items-center gap-2`}
+          >
+            <FaPalette className={theme.icon.primary} />
+            Select Theme
+          </h3>
+
+          {/* Theme grid */}
+          <div className="grid grid-cols-2 gap-2">
+            {Object.entries(themeConfig).map(([key, themeOption]) => {
+              const isActive = themeName === key;
+
+              return (
+                <button
+                  key={key}
+                  onClick={() => {
+                    setTheme(key);
+                    setIsOpen(false);
+                  }}
+                  className={`p-3 rounded-xl border-2 transition-all ${
+                    isActive
+                      ? `border-${themeOption.accent.replace("text-", "")} bg-${themeOption.bg.replace("bg-", "")}`
+                      : `${theme.border.default} ${theme.background.cardHover}`
+                  }`}
+                >
+                  {/* Theme preview */}
+                  <div
+                    className={`w-full h-12 rounded-lg bg-gradient-to-r ${themeOption.gradient} mb-2 flex items-center justify-center text-white text-xl shadow-md`}
+                  >
+                    {themeOption.icon}
+                  </div>
+
+                  {/* Theme name and check */}
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={`text-xs font-medium ${theme.text.primary}`}
+                    >
+                      {themeOption.name}
+                    </span>
+                    {isActive && (
+                      <FaCheck className={theme.icon.primary} size={12} />
+                    )}
+                  </div>
+
+                  {/* Active indicator dot */}
+                  {isActive && (
+                    <div
+                      className={`w-1.5 h-1.5 rounded-full ${theme.icon.primary.replace("text", "bg")} mx-auto mt-1`}
+                    ></div>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
-          {themes.map((theme) => (
-            <button
-              key={theme.name}
-              onClick={() => handleSelect(theme)}
-              className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/30 flex items-center gap-3 transition-colors"
-            >
-              <span className="text-lg">{theme.icon}</span>
-
-              <span>{theme.name}</span>
-
+          {/* Current theme indicator */}
+          <div
+            className={`mt-3 pt-2 text-center text-xs ${theme.text.tertiary} border-t ${theme.border.light}`}
+          >
+            <span className="flex items-center justify-center gap-1">
+              <span>Current:</span>
               <span
-                className={`ml-auto w-4 h-4 rounded-full bg-gradient-to-r ${theme.gradient}`}
-              ></span>
-            </button>
-          ))}
+                className={`font-medium ${theme.text.accent} flex items-center gap-1`}
+              >
+                <span>{currentTheme.icon}</span>
+                {currentTheme.name}
+              </span>
+            </span>
+          </div>
         </div>
       )}
     </div>

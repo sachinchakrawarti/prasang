@@ -13,8 +13,6 @@ import {
   FaSave,
   FaUndo,
   FaInfoCircle,
-  FaMoon,
-  FaSun,
   FaEye,
   FaVolumeUp,
   FaKeyboard,
@@ -29,9 +27,12 @@ import {
   FaLock,
   FaUserCircle,
   FaCog,
+  FaTimes,
 } from "react-icons/fa";
+import { useTheme } from "../../../../theme";
 
 const Settings = () => {
+  const { theme, themeName } = useTheme();
   const [settings, setSettings] = useState({
     // Language Settings
     literatureLang: "urdu",
@@ -166,6 +167,42 @@ const Settings = () => {
 
   const updateSetting = (key, value) => {
     setSettings((prev) => ({ ...prev, [key]: value }));
+  };
+
+  // Theme-based helper functions
+  const getAccentGradient = () => {
+    switch(themeName) {
+      case 'forest': return 'from-green-600 to-emerald-600';
+      case 'lavender': return 'from-purple-600 to-pink-600';
+      case 'rose': return 'from-rose-600 to-pink-600';
+      case 'sepia': return 'from-amber-600 to-yellow-700';
+      default: return 'from-amber-500 to-yellow-500';
+    }
+  };
+
+  const getActiveTabClass = (isActive) => {
+    const baseClass = `w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all mb-1`;
+    if (isActive) {
+      return `${baseClass} bg-gradient-to-r ${getAccentGradient()} text-white shadow-lg`;
+    }
+    return `${baseClass} ${theme.text.secondary} ${theme.background.cardHover}`;
+  };
+
+  const getBorderClass = () => {
+    switch(themeName) {
+      case 'forest': return 'border-green-200 dark:border-green-800';
+      case 'lavender': return 'border-purple-200 dark:border-purple-800';
+      case 'rose': return 'border-rose-200 dark:border-rose-800';
+      case 'sepia': return 'border-amber-300 dark:border-amber-700';
+      default: return 'border-amber-200 dark:border-amber-800';
+    }
+  };
+
+  const getButtonClass = (isSelected) => {
+    if (isSelected) {
+      return `flex items-center gap-3 p-4 rounded-xl border-2 ${getBorderClass()} ${theme.background.secondary}`;
+    }
+    return `flex items-center gap-3 p-4 rounded-xl border-2 ${theme.border.default} ${theme.background.cardHover}`;
   };
 
   const tabs = [
@@ -370,21 +407,24 @@ const Settings = () => {
     { id: "premium", name: "Premium", size: "~10MB" },
   ];
 
+  const accentGradient = getAccentGradient();
+  const borderClass = getBorderClass();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-50">
+    <div className={`min-h-screen ${theme.background.gradient}`}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white">
+      <div className={`bg-gradient-to-r ${accentGradient} text-white`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center gap-4">
             <Link
               to="/"
-              className="p-2 hover:bg-white/20 rounded-full transition"
+              className={`p-2 hover:bg-white/20 rounded-full transition`}
             >
               <FaArrowLeft size={20} />
             </Link>
             <div>
               <h1 className="text-2xl font-bold">Settings</h1>
-              <p className="text-amber-100 text-sm">
+              <p className="text-white/80 text-sm">
                 Customize your reading experience
               </p>
             </div>
@@ -396,18 +436,15 @@ const Settings = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Tabs */}
           <div className="lg:w-64 space-y-2">
-            <div className="bg-white rounded-2xl shadow-lg p-4 sticky top-24">
+            <div className={`${theme.background.card} rounded-2xl shadow-lg p-4 sticky top-24 border ${theme.border.card}`}>
               {tabs.map((tab) => {
                 const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
                 return (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all mb-1 ${
-                      activeTab === tab.id
-                        ? "bg-gradient-to-r from-amber-500 to-yellow-500 text-white shadow-lg"
-                        : "text-gray-600 hover:bg-amber-50"
-                    }`}
+                    className={getActiveTabClass(isActive)}
                   >
                     <Icon size={18} />
                     <span className="font-medium">{tab.label}</span>
@@ -419,11 +456,11 @@ const Settings = () => {
 
           {/* Main Content */}
           <div className="flex-1">
-            <div className="bg-white rounded-3xl shadow-xl p-6 lg:p-8">
+            <div className={`${theme.background.card} rounded-3xl shadow-xl p-6 lg:p-8 border ${theme.border.card}`}>
               {/* Save Message */}
               {saveMessage && (
-                <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg flex items-center gap-2">
-                  <FaCheck className="text-green-500" />
+                <div className={`mb-6 ${theme.background.secondary} border ${theme.border.accent} ${theme.text.success} px-4 py-3 rounded-lg flex items-center gap-2`}>
+                  <FaCheck className={theme.icon.success} />
                   {saveMessage}
                 </div>
               )}
@@ -431,13 +468,13 @@ const Settings = () => {
               {/* Language Settings */}
               {activeTab === "language" && (
                 <div className="space-y-8">
-                  <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    <FaLanguage className="text-amber-500" /> Language Settings
+                  <h2 className={`text-2xl font-bold ${theme.text.primary} flex items-center gap-2`}>
+                    <FaLanguage className={theme.icon.primary} /> Language Settings
                   </h2>
 
                   {/* Literature Language */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className={`block text-sm font-medium ${theme.text.secondary} mb-3`}>
                       Primary Literature Language
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -447,23 +484,19 @@ const Settings = () => {
                           onClick={() =>
                             updateSetting("literatureLang", lang.code)
                           }
-                          className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all ${
-                            settings.literatureLang === lang.code
-                              ? "border-amber-500 bg-amber-50"
-                              : "border-gray-200 hover:border-amber-200"
-                          }`}
+                          className={getButtonClass(settings.literatureLang === lang.code)}
                         >
                           <span className="text-3xl">{lang.flag}</span>
                           <div className="flex-1 text-left">
-                            <div className="font-semibold text-gray-800">
+                            <div className={`font-semibold ${theme.text.primary}`}>
                               {lang.name}
                             </div>
-                            <div className="text-sm text-gray-500">
+                            <div className={`text-sm ${theme.text.tertiary}`}>
                               {lang.native} · {lang.speakers} speakers
                             </div>
                           </div>
                           {settings.literatureLang === lang.code && (
-                            <FaCheck className="text-amber-500" />
+                            <FaCheck className={theme.icon.primary} />
                           )}
                         </button>
                       ))}
@@ -472,7 +505,7 @@ const Settings = () => {
 
                   {/* Translation Language */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className={`block text-sm font-medium ${theme.text.secondary} mb-3`}>
                       Primary Translation Language
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -482,18 +515,14 @@ const Settings = () => {
                           onClick={() =>
                             updateSetting("translationLang", lang.code)
                           }
-                          className={`flex items-center gap-2 p-3 rounded-xl border-2 transition-all ${
-                            settings.translationLang === lang.code
-                              ? "border-amber-500 bg-amber-50"
-                              : "border-gray-200 hover:border-amber-200"
-                          }`}
+                          className={getButtonClass(settings.translationLang === lang.code)}
                         >
                           <span className="text-2xl">{lang.flag}</span>
-                          <span className="font-medium text-gray-800">
+                          <span className={`font-medium ${theme.text.primary}`}>
                             {lang.name}
                           </span>
                           {settings.translationLang === lang.code && (
-                            <FaCheck className="text-amber-500 ml-auto" />
+                            <FaCheck className={`${theme.icon.primary} ml-auto`} />
                           )}
                         </button>
                       ))}
@@ -502,7 +531,7 @@ const Settings = () => {
 
                   {/* Secondary Translation */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className={`block text-sm font-medium ${theme.text.secondary} mb-3`}>
                       Secondary Translation (Optional)
                     </label>
                     <select
@@ -510,7 +539,7 @@ const Settings = () => {
                       onChange={(e) =>
                         updateSetting("secondaryTranslation", e.target.value)
                       }
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      className={`w-full p-3 ${theme.input.default} rounded-xl focus:outline-none focus:ring-2 ${theme.ring.focus}`}
                     >
                       <option value="none">None</option>
                       {translationLanguages.map((lang) => (
@@ -523,12 +552,12 @@ const Settings = () => {
 
                   {/* Language Display Options */}
                   <div className="space-y-3">
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Show Original Text
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Display the original language alongside translation
                         </p>
                       </div>
@@ -542,12 +571,12 @@ const Settings = () => {
                       />
                     </label>
 
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Show Transliteration
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Display pronunciation guide
                         </p>
                       </div>
@@ -567,39 +596,39 @@ const Settings = () => {
               {/* Display Settings */}
               {activeTab === "display" && (
                 <div className="space-y-8">
-                  <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    <FaEye className="text-amber-500" /> Display Settings
+                  <h2 className={`text-2xl font-bold ${theme.text.primary} flex items-center gap-2`}>
+                    <FaEye className={theme.icon.primary} /> Display Settings
                   </h2>
 
                   {/* Theme Selection */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className={`block text-sm font-medium ${theme.text.secondary} mb-3`}>
                       Color Theme
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {themes.map((theme) => (
+                      {themes.map((themeOption) => (
                         <button
-                          key={theme.id}
-                          onClick={() => updateSetting("theme", theme.id)}
+                          key={themeOption.id}
+                          onClick={() => updateSetting("theme", themeOption.id)}
                           className={`p-4 rounded-xl border-2 transition-all ${
-                            settings.theme === theme.id
-                              ? "border-amber-500"
-                              : "border-gray-200 hover:border-amber-200"
+                            settings.theme === themeOption.id
+                              ? `border-${themeOption.accent || 'amber-500'} ${theme.background.secondary}`
+                              : `${theme.border.default} ${theme.background.cardHover}`
                           }`}
                         >
                           <div
-                            className={`h-12 rounded-lg bg-gradient-to-r ${theme.gradient} mb-2`}
+                            className={`h-12 rounded-lg bg-gradient-to-r ${themeOption.gradient} mb-2`}
                           />
                           <div className="flex items-center justify-between">
-                            <span className="font-medium text-gray-800">
-                              {theme.name}
+                            <span className={`font-medium ${theme.text.primary}`}>
+                              {themeOption.name}
                             </span>
-                            {settings.theme === theme.id && (
-                              <FaCheck className="text-amber-500 text-sm" />
+                            {settings.theme === themeOption.id && (
+                              <FaCheck className={theme.icon.primary} size={12} />
                             )}
                           </div>
-                          <span className="text-xs text-gray-500">
-                            {theme.desc}
+                          <span className={`text-xs ${theme.text.tertiary}`}>
+                            {themeOption.desc}
                           </span>
                         </button>
                       ))}
@@ -608,7 +637,7 @@ const Settings = () => {
 
                   {/* Font Size */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className={`block text-sm font-medium ${theme.text.secondary} mb-3`}>
                       Font Size
                     </label>
                     <div className="flex gap-3">
@@ -618,15 +647,15 @@ const Settings = () => {
                           onClick={() => updateSetting("fontSize", size.id)}
                           className={`flex-1 p-4 rounded-xl border-2 text-center transition-all ${
                             settings.fontSize === size.id
-                              ? "border-amber-500 bg-amber-50"
-                              : "border-gray-200 hover:border-amber-200"
+                              ? `border-amber-500 ${theme.background.secondary}`
+                              : `${theme.border.default} ${theme.background.cardHover}`
                           }`}
                         >
-                          <div className={`text-2xl mb-1`}>{size.preview}</div>
-                          <div className="font-medium text-gray-800">
+                          <div className={`text-2xl mb-1 ${theme.text.primary}`}>{size.preview}</div>
+                          <div className={`font-medium ${theme.text.primary}`}>
                             {size.name}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className={`text-xs ${theme.text.tertiary}`}>
                             {size.value}
                           </div>
                         </button>
@@ -636,7 +665,7 @@ const Settings = () => {
 
                   {/* Font Family */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className={`block text-sm font-medium ${theme.text.secondary} mb-3`}>
                       Font Family
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -646,17 +675,17 @@ const Settings = () => {
                           onClick={() => updateSetting("fontFamily", font.id)}
                           className={`p-4 rounded-xl border-2 text-center transition-all ${
                             settings.fontFamily === font.id
-                              ? "border-amber-500 bg-amber-50"
-                              : "border-gray-200 hover:border-amber-200"
+                              ? `border-amber-500 ${theme.background.secondary}`
+                              : `${theme.border.default} ${theme.background.cardHover}`
                           }`}
                         >
-                          <div className={`${font.value} text-3xl mb-1`}>
+                          <div className={`${font.value} text-3xl mb-1 ${theme.text.primary}`}>
                             {font.sample}
                           </div>
-                          <div className="font-medium text-gray-800">
+                          <div className={`font-medium ${theme.text.primary}`}>
                             {font.name}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className={`text-xs ${theme.text.tertiary}`}>
                             {font.desc}
                           </div>
                         </button>
@@ -666,7 +695,7 @@ const Settings = () => {
 
                   {/* Text Alignment */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className={`block text-sm font-medium ${theme.text.secondary} mb-3`}>
                       Text Alignment
                     </label>
                     <div className="flex gap-3">
@@ -676,15 +705,15 @@ const Settings = () => {
                           onClick={() => updateSetting("textAlign", align.id)}
                           className={`flex-1 p-4 rounded-xl border-2 text-center transition-all ${
                             settings.textAlign === align.id
-                              ? "border-amber-500 bg-amber-50"
-                              : "border-gray-200 hover:border-amber-200"
+                              ? `border-amber-500 ${theme.background.secondary}`
+                              : `${theme.border.default} ${theme.background.cardHover}`
                           }`}
                         >
                           <div className="text-2xl mb-1">{align.icon}</div>
-                          <div className="font-medium text-gray-800">
+                          <div className={`font-medium ${theme.text.primary}`}>
                             {align.name}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className={`text-xs ${theme.text.tertiary}`}>
                             {align.desc}
                           </div>
                         </button>
@@ -694,7 +723,7 @@ const Settings = () => {
 
                   {/* Line Height */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className={`block text-sm font-medium ${theme.text.secondary} mb-3`}>
                       Line Height
                     </label>
                     <div className="flex gap-3">
@@ -704,14 +733,14 @@ const Settings = () => {
                           onClick={() => updateSetting("lineHeight", height.id)}
                           className={`flex-1 p-4 rounded-xl border-2 text-center transition-all ${
                             settings.lineHeight === height.id
-                              ? "border-amber-500 bg-amber-50"
-                              : "border-gray-200 hover:border-amber-200"
+                              ? `border-amber-500 ${theme.background.secondary}`
+                              : `${theme.border.default} ${theme.background.cardHover}`
                           }`}
                         >
-                          <div className="font-medium text-gray-800">
+                          <div className={`font-medium ${theme.text.primary}`}>
                             {height.name}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className={`text-xs ${theme.text.tertiary}`}>
                             Line height {height.value}
                           </div>
                         </button>
@@ -724,18 +753,17 @@ const Settings = () => {
               {/* Reading Settings */}
               {activeTab === "reading" && (
                 <div className="space-y-6">
-                  <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    <FaBookOpen className="text-amber-500" /> Reading
-                    Preferences
+                  <h2 className={`text-2xl font-bold ${theme.text.primary} flex items-center gap-2`}>
+                    <FaBookOpen className={theme.icon.primary} /> Reading Preferences
                   </h2>
 
                   <div className="space-y-4">
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Auto-scroll
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Automatically scroll through long texts
                         </p>
                       </div>
@@ -751,7 +779,7 @@ const Settings = () => {
 
                     {settings.autoScroll && (
                       <div className="pl-8">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className={`block text-sm font-medium ${theme.text.secondary} mb-2`}>
                           Scroll Speed
                         </label>
                         <select
@@ -759,7 +787,7 @@ const Settings = () => {
                           onChange={(e) =>
                             updateSetting("autoScrollSpeed", e.target.value)
                           }
-                          className="w-full p-2 border border-gray-300 rounded-lg"
+                          className={`w-full p-2 ${theme.input.default} rounded-lg`}
                         >
                           <option value="slow">Slow</option>
                           <option value="medium">Medium</option>
@@ -768,12 +796,12 @@ const Settings = () => {
                       </div>
                     )}
 
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Night Mode
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Reduce eye strain at night
                         </p>
                       </div>
@@ -787,12 +815,12 @@ const Settings = () => {
                       />
                     </label>
 
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Sepia Mode
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Warm, vintage reading experience
                         </p>
                       </div>
@@ -812,17 +840,17 @@ const Settings = () => {
               {/* Notifications Settings */}
               {activeTab === "notifications" && (
                 <div className="space-y-6">
-                  <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    <FaBell className="text-amber-500" /> Notification Settings
+                  <h2 className={`text-2xl font-bold ${theme.text.primary} flex items-center gap-2`}>
+                    <FaBell className={theme.icon.primary} /> Notification Settings
                   </h2>
 
                   <div className="space-y-4">
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Email Notifications
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Receive updates via email
                         </p>
                       </div>
@@ -836,12 +864,12 @@ const Settings = () => {
                       />
                     </label>
 
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Push Notifications
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Browser notifications
                         </p>
                       </div>
@@ -855,12 +883,12 @@ const Settings = () => {
                       />
                     </label>
 
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Newsletter
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Weekly poetry newsletter
                         </p>
                       </div>
@@ -883,12 +911,12 @@ const Settings = () => {
               {/* Privacy Settings */}
               {activeTab === "privacy" && (
                 <div className="space-y-6">
-                  <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    <FaLock className="text-amber-500" /> Privacy Settings
+                  <h2 className={`text-2xl font-bold ${theme.text.primary} flex items-center gap-2`}>
+                    <FaLock className={theme.icon.primary} /> Privacy Settings
                   </h2>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className={`block text-sm font-medium ${theme.text.secondary} mb-3`}>
                       Profile Visibility
                     </label>
                     <select
@@ -896,7 +924,7 @@ const Settings = () => {
                       onChange={(e) =>
                         updateSetting("profileVisibility", e.target.value)
                       }
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      className={`w-full p-3 ${theme.input.default} rounded-xl focus:outline-none focus:ring-2 ${theme.ring.focus}`}
                     >
                       <option value="public">Public - Everyone can see</option>
                       <option value="followers">Followers Only</option>
@@ -905,12 +933,12 @@ const Settings = () => {
                   </div>
 
                   <div className="space-y-4 mt-4">
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Show Reading History
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Display your reading activity
                         </p>
                       </div>
@@ -924,12 +952,12 @@ const Settings = () => {
                       />
                     </label>
 
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Allow Comments
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Let others comment on your activity
                         </p>
                       </div>
@@ -949,12 +977,12 @@ const Settings = () => {
               {/* Downloads Settings */}
               {activeTab === "downloads" && (
                 <div className="space-y-6">
-                  <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    <FaDownload className="text-amber-500" /> Download Settings
+                  <h2 className={`text-2xl font-bold ${theme.text.primary} flex items-center gap-2`}>
+                    <FaDownload className={theme.icon.primary} /> Download Settings
                   </h2>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className={`block text-sm font-medium ${theme.text.secondary} mb-3`}>
                       Download Quality
                     </label>
                     <div className="flex gap-3">
@@ -966,14 +994,14 @@ const Settings = () => {
                           }
                           className={`flex-1 p-4 rounded-xl border-2 text-center transition-all ${
                             settings.downloadQuality === quality.id
-                              ? "border-amber-500 bg-amber-50"
-                              : "border-gray-200 hover:border-amber-200"
+                              ? `border-amber-500 ${theme.background.secondary}`
+                              : `${theme.border.default} ${theme.background.cardHover}`
                           }`}
                         >
-                          <div className="font-medium text-gray-800">
+                          <div className={`font-medium ${theme.text.primary}`}>
                             {quality.name}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className={`text-xs ${theme.text.tertiary}`}>
                             {quality.size}
                           </div>
                         </button>
@@ -981,12 +1009,12 @@ const Settings = () => {
                     </div>
                   </div>
 
-                  <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                  <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                     <div>
-                      <span className="font-medium text-gray-800">
+                      <span className={`font-medium ${theme.text.primary}`}>
                         Auto-download
                       </span>
-                      <p className="text-sm text-gray-500">
+                      <p className={`text-sm ${theme.text.tertiary}`}>
                         Automatically download new content
                       </p>
                     </div>
@@ -1005,17 +1033,17 @@ const Settings = () => {
               {/* Accessibility Settings */}
               {activeTab === "accessibility" && (
                 <div className="space-y-6">
-                  <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    <FaInfoCircle className="text-amber-500" /> Accessibility
+                  <h2 className={`text-2xl font-bold ${theme.text.primary} flex items-center gap-2`}>
+                    <FaInfoCircle className={theme.icon.primary} /> Accessibility
                   </h2>
 
                   <div className="space-y-4">
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           High Contrast
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Increase contrast for better visibility
                         </p>
                       </div>
@@ -1029,12 +1057,12 @@ const Settings = () => {
                       />
                     </label>
 
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Reduce Motion
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Minimize animations
                         </p>
                       </div>
@@ -1048,12 +1076,12 @@ const Settings = () => {
                       />
                     </label>
 
-                    <label className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <label className={`flex items-center justify-between p-4 ${theme.background.secondary} rounded-xl border ${theme.border.light}`}>
                       <div>
-                        <span className="font-medium text-gray-800">
+                        <span className={`font-medium ${theme.text.primary}`}>
                           Screen Reader
                         </span>
-                        <p className="text-sm text-gray-500">
+                        <p className={`text-sm ${theme.text.tertiary}`}>
                           Optimize for screen readers
                         </p>
                       </div>
@@ -1073,40 +1101,40 @@ const Settings = () => {
               {/* Account Settings */}
               {activeTab === "account" && (
                 <div className="space-y-6">
-                  <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    <FaUserCircle className="text-amber-500" /> Account Settings
+                  <h2 className={`text-2xl font-bold ${theme.text.primary} flex items-center gap-2`}>
+                    <FaUserCircle className={theme.icon.primary} /> Account Settings
                   </h2>
 
-                  <div className="bg-amber-50 rounded-xl p-6 text-center">
-                    <FaUserCircle className="text-6xl text-amber-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  <div className={`${theme.background.secondary} rounded-xl p-6 text-center border ${theme.border.accent}`}>
+                    <FaUserCircle className={`text-6xl ${theme.icon.primary} mx-auto mb-4`} />
+                    <h3 className={`text-xl font-bold ${theme.text.primary} mb-2`}>
                       Guest User
                     </h3>
-                    <p className="text-gray-600 mb-4">
+                    <p className={`${theme.text.secondary} mb-4`}>
                       Sign in to sync settings across devices
                     </p>
                     <Link
                       to="/signup"
-                      className="inline-block bg-gradient-to-r from-amber-500 to-yellow-500 text-white px-6 py-2 rounded-lg hover:from-amber-600 hover:to-yellow-600 transition"
+                      className={`inline-block ${theme.button.primary} px-6 py-2 rounded-lg transition`}
                     >
                       Sign In / Sign Up
                     </Link>
                   </div>
 
-                  <div className="border-t border-amber-200 pt-6">
-                    <h3 className="font-medium text-gray-800 mb-4">
+                  <div className={`border-t ${borderClass} pt-6`}>
+                    <h3 className={`font-medium ${theme.text.primary} mb-4`}>
                       Data Management
                     </h3>
                     <div className="space-y-3">
-                      <button className="w-full text-left p-3 bg-gray-50 rounded-xl hover:bg-amber-50 transition flex items-center justify-between">
-                        <span>Export my data</span>
-                        <FaDownload className="text-amber-500" />
+                      <button className={`w-full text-left p-3 ${theme.background.secondary} rounded-xl ${theme.background.cardHover} transition flex items-center justify-between`}>
+                        <span className={theme.text.primary}>Export my data</span>
+                        <FaDownload className={theme.icon.primary} />
                       </button>
-                      <button className="w-full text-left p-3 bg-gray-50 rounded-xl hover:bg-amber-50 transition flex items-center justify-between">
-                        <span>Clear reading history</span>
-                        <FaHistory className="text-amber-500" />
+                      <button className={`w-full text-left p-3 ${theme.background.secondary} rounded-xl ${theme.background.cardHover} transition flex items-center justify-between`}>
+                        <span className={theme.text.primary}>Clear reading history</span>
+                        <FaHistory className={theme.icon.primary} />
                       </button>
-                      <button className="w-full text-left p-3 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition flex items-center justify-between">
+                      <button className={`w-full text-left p-3 ${theme.background.secondary} rounded-xl ${theme.background.cardHover} transition flex items-center justify-between text-red-600 dark:text-red-400`}>
                         <span>Delete account</span>
                         <FaTimes className="text-red-500" />
                       </button>
@@ -1116,16 +1144,16 @@ const Settings = () => {
               )}
 
               {/* Action Buttons */}
-              <div className="flex gap-4 pt-8 border-t border-amber-200 mt-8">
+              <div className={`flex gap-4 pt-8 border-t ${borderClass} mt-8`}>
                 <button
                   onClick={saveSettings}
-                  className="flex-1 bg-gradient-to-r from-amber-500 to-yellow-500 text-white py-3 rounded-xl hover:from-amber-600 hover:to-yellow-600 transition-all font-medium flex items-center justify-center gap-2"
+                  className={`flex-1 ${theme.button.primary} py-3 rounded-xl transition-all font-medium flex items-center justify-center gap-2`}
                 >
                   <FaSave /> Save Changes
                 </button>
                 <button
                   onClick={resetSettings}
-                  className="flex-1 border-2 border-amber-500 text-amber-600 py-3 rounded-xl hover:bg-amber-50 transition-all font-medium flex items-center justify-center gap-2"
+                  className={`flex-1 border-2 ${theme.button.secondary} py-3 rounded-xl transition-all font-medium flex items-center justify-center gap-2`}
                 >
                   <FaUndo /> Reset to Default
                 </button>

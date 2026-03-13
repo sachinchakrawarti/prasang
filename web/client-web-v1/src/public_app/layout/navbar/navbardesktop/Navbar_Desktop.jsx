@@ -9,18 +9,73 @@ import {
   FaChevronDown,
   FaRobot,
   FaCog,
+  FaBell,
 } from "react-icons/fa";
+import { useTheme } from "../../../../theme";
 import SearchBar from "../components/SearchBar";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import ThemeSwitcher from "../components/ThemeSwitcher";
-import Notification from "../components/NotificationDropdown";
+import Notification from "../components/Notification"; // Updated path
 import { navItems } from "../NavbarData";
+
+// Rest of the component remains the same...
 
 const NavbarDesktop = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
+  const { theme, themeName } = useTheme();
 
   const handleDropdownEnter = (index) => setOpenDropdown(index);
   const handleDropdownLeave = () => setOpenDropdown(null);
+
+  // Theme-based helper functions
+  const getAccentBgClass = () => {
+    switch (themeName) {
+      case "forest":
+        return "bg-green-100 dark:bg-green-900/30";
+      case "lavender":
+        return "bg-purple-100 dark:bg-purple-900/30";
+      case "rose":
+        return "bg-rose-100 dark:bg-rose-900/30";
+      case "sepia":
+        return "bg-amber-200 dark:bg-amber-900/30";
+      default:
+        return "bg-amber-100 dark:bg-amber-900/30";
+    }
+  };
+
+  const getHoverBgClass = () => {
+    switch (themeName) {
+      case "forest":
+        return "hover:bg-green-50 dark:hover:bg-green-900/20";
+      case "lavender":
+        return "hover:bg-purple-50 dark:hover:bg-purple-900/20";
+      case "rose":
+        return "hover:bg-rose-50 dark:hover:bg-rose-900/20";
+      case "sepia":
+        return "hover:bg-amber-100 dark:hover:bg-amber-900/20";
+      default:
+        return "hover:bg-amber-50 dark:hover:bg-amber-900/20";
+    }
+  };
+
+  const getGradientBorder = () => {
+    switch (themeName) {
+      case "forest":
+        return "from-green-400 to-emerald-400";
+      case "lavender":
+        return "from-purple-400 to-pink-400";
+      case "rose":
+        return "from-rose-400 to-pink-400";
+      case "sepia":
+        return "from-amber-600 to-yellow-600";
+      default:
+        return "from-amber-400 via-yellow-400 to-amber-400";
+    }
+  };
+
+  const accentBgClass = getAccentBgClass();
+  const hoverBgClass = getHoverBgClass();
+  const gradientBorder = getGradientBorder();
 
   // Sample notifications
   const notifications = [
@@ -71,21 +126,27 @@ const NavbarDesktop = () => {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 transition-colors duration-200">
+    <nav
+      className={`sticky top-0 z-50 transition-colors duration-200 ${theme.background.primary}`}
+    >
       {/* Main Navbar with Gradient */}
-      <div className="bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 shadow-lg">
-        {/* Decorative top border */}
-        <div className="h-1 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400"></div>
+      <div className={`${theme.background.gradient} shadow-lg`}>
+        {/* Decorative top border - theme aware */}
+        <div className={`h-1 bg-gradient-to-r ${gradientBorder}`}></div>
 
         {/* First Row: Logo, Search, Icons, Sign Up */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo */}
+            {/* Logo - theme aware */}
             <Link to="/" className="flex items-center gap-2 group">
               <div className="relative">
-                <FaFeather className="text-2xl text-amber-500 group-hover:scale-110 transition-transform" />
+                <FaFeather
+                  className={`text-2xl ${theme.icon.primary} group-hover:scale-110 transition-transform`}
+                />
               </div>
-              <span className="font-bold text-xl bg-gradient-to-r from-amber-700 to-amber-500 bg-clip-text text-transparent">
+              <span
+                className={`font-bold text-xl bg-gradient-to-r from-amber-700 to-amber-500 bg-clip-text text-transparent ${theme.text.primary}`}
+              >
                 Prasang
               </span>
             </Link>
@@ -98,7 +159,7 @@ const NavbarDesktop = () => {
               {/* AI Assistant Icon */}
               <Link
                 to="/ai-assistant"
-                className="p-2 text-amber-600 hover:bg-amber-100 rounded-full transition-all relative group"
+                className={`p-2 ${theme.text.accent} ${hoverBgClass} rounded-full transition-all relative group`}
                 aria-label="AI Assistant"
               >
                 <FaRobot size={18} />
@@ -125,7 +186,7 @@ const NavbarDesktop = () => {
               {/* Settings Icon - Links to Settings Page */}
               <Link
                 to="/settings"
-                className="p-2 text-amber-600 hover:bg-amber-100 rounded-full transition-all relative group"
+                className={`p-2 ${theme.text.accent} ${hoverBgClass} rounded-full transition-all relative group`}
                 aria-label="Settings"
               >
                 <FaCog size={18} />
@@ -137,7 +198,7 @@ const NavbarDesktop = () => {
               {/* Sign Up Button */}
               <Link
                 to="/signup"
-                className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white px-5 py-2 rounded-full hover:from-amber-600 hover:to-yellow-600 transition-all shadow-md hover:shadow-lg shadow-amber-200 ml-1"
+                className={`${theme.button.primary} px-5 py-2 rounded-full shadow-md hover:shadow-lg ml-1`}
               >
                 Sign Up
               </Link>
@@ -146,7 +207,9 @@ const NavbarDesktop = () => {
         </div>
 
         {/* Second Row: Main Navigation Menu */}
-        <div className="border-t border-amber-200 bg-white/50 backdrop-blur-sm">
+        <div
+          className={`border-t ${theme.border.accent} ${theme.background.overlay}`}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <ul className="flex items-center justify-center space-x-1">
               {navItems.map((item, index) => (
@@ -158,15 +221,15 @@ const NavbarDesktop = () => {
                 >
                   {item.dropdown ? (
                     <>
-                      {/* Main navigation link */}
+                      {/* Main navigation link - theme aware */}
                       <NavLink
                         to={item.to}
                         className={({ isActive }) =>
                           `flex items-center gap-2 px-4 py-3 rounded-l-lg transition-all duration-200
                           ${
                             isActive
-                              ? "bg-amber-100 text-amber-700 font-medium"
-                              : "text-amber-700 hover:bg-amber-50"
+                              ? `${accentBgClass} ${theme.text.accent} font-medium`
+                              : `${theme.text.secondary} ${hoverBgClass}`
                           }`
                         }
                       >
@@ -174,7 +237,7 @@ const NavbarDesktop = () => {
                         <span className="font-medium">{item.label}</span>
                       </NavLink>
 
-                      {/* Dropdown toggle button */}
+                      {/* Dropdown toggle button - theme aware */}
                       <button
                         onClick={() =>
                           setOpenDropdown(openDropdown === index ? null : index)
@@ -182,8 +245,8 @@ const NavbarDesktop = () => {
                         className={`px-2 py-3 rounded-r-lg transition-all duration-200
                           ${
                             openDropdown === index
-                              ? "bg-amber-100 text-amber-700"
-                              : "text-amber-700 hover:bg-amber-50"
+                              ? `${accentBgClass} ${theme.text.accent}`
+                              : `${theme.text.secondary} ${hoverBgClass}`
                           }`}
                         aria-label="Toggle dropdown"
                       >
@@ -195,9 +258,11 @@ const NavbarDesktop = () => {
                         />
                       </button>
 
-                      {/* Dropdown Menu */}
+                      {/* Dropdown Menu - theme aware */}
                       {openDropdown === index && (
-                        <div className="absolute left-0 top-full mt-0 w-56 bg-white rounded-b-2xl shadow-xl border border-amber-200 py-2 z-50">
+                        <div
+                          className={`absolute left-0 top-full mt-0 w-56 ${theme.background.card} rounded-b-2xl shadow-xl border ${theme.border.accent} py-2 z-50`}
+                        >
                           {item.dropdown.map((subItem) => (
                             <NavLink
                               key={subItem.to}
@@ -206,8 +271,8 @@ const NavbarDesktop = () => {
                                 `flex items-center gap-3 px-4 py-2 text-sm transition-colors
                                 ${
                                   isActive
-                                    ? "bg-amber-100 text-amber-700 font-medium"
-                                    : "text-gray-700 hover:bg-amber-50"
+                                    ? `${accentBgClass} ${theme.text.accent} font-medium`
+                                    : `${theme.text.secondary} ${hoverBgClass}`
                                 }`
                               }
                               onClick={() => setOpenDropdown(null)}
@@ -226,8 +291,8 @@ const NavbarDesktop = () => {
                         `flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200
                         ${
                           isActive
-                            ? "bg-amber-100 text-amber-700 font-medium"
-                            : "text-amber-700 hover:bg-amber-50"
+                            ? `${accentBgClass} ${theme.text.accent} font-medium`
+                            : `${theme.text.secondary} ${hoverBgClass}`
                         }`
                       }
                     >

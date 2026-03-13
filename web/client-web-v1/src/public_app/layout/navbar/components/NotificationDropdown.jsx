@@ -1,7 +1,16 @@
 // src/public_app/layout/navbar/components/Notification.jsx
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FaBell, FaCheckCircle, FaInfoCircle, FaHeart, FaUserPlus, FaFeather, FaTimes } from "react-icons/fa";
+import {
+  FaBell,
+  FaCheckCircle,
+  FaInfoCircle,
+  FaHeart,
+  FaUserPlus,
+  FaFeather,
+  FaTimes,
+} from "react-icons/fa";
+import { useTheme } from "../../../../theme";
 
 // Sample notification data - in real app, this would come from an API/context
 const sampleNotifications = [
@@ -62,7 +71,7 @@ const sampleNotifications = [
   },
 ];
 
-const Notification = ({ 
+const Notification = ({
   notifications = sampleNotifications,
   onNotificationClick,
   onMarkAllRead,
@@ -75,22 +84,108 @@ const Notification = ({
   const [isOpen, setIsOpen] = useState(false);
   const [localNotifications, setLocalNotifications] = useState(notifications);
   const notificationRef = useRef(null);
+  const { theme, themeName } = useTheme();
 
   const unreadCount = localNotifications.filter((n) => !n.read).length;
+
+  // Theme-based styling helpers
+  const getAccentColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "text-green-600 dark:text-green-400";
+      case "lavender":
+        return "text-purple-600 dark:text-purple-400";
+      case "rose":
+        return "text-rose-600 dark:text-rose-400";
+      case "sepia":
+        return "text-amber-700 dark:text-amber-400";
+      default:
+        return "text-amber-600 dark:text-amber-400";
+    }
+  };
+
+  const getHoverBgColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "hover:bg-green-100 dark:hover:bg-green-900/30";
+      case "lavender":
+        return "hover:bg-purple-100 dark:hover:bg-purple-900/30";
+      case "rose":
+        return "hover:bg-rose-100 dark:hover:bg-rose-900/30";
+      case "sepia":
+        return "hover:bg-amber-200 dark:hover:bg-amber-900/30";
+      default:
+        return "hover:bg-amber-100 dark:hover:bg-amber-900/30";
+    }
+  };
+
+  const getBorderColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "border-green-200 dark:border-green-800";
+      case "lavender":
+        return "border-purple-200 dark:border-purple-800";
+      case "rose":
+        return "border-rose-200 dark:border-rose-800";
+      case "sepia":
+        return "border-amber-300 dark:border-amber-700";
+      default:
+        return "border-amber-200 dark:border-amber-800";
+    }
+  };
+
+  const getIconBgColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "bg-green-100 dark:bg-green-900/30";
+      case "lavender":
+        return "bg-purple-100 dark:bg-purple-900/30";
+      case "rose":
+        return "bg-rose-100 dark:bg-rose-900/30";
+      case "sepia":
+        return "bg-amber-200 dark:bg-amber-900/30";
+      default:
+        return "bg-amber-100 dark:bg-amber-900/30";
+    }
+  };
+
+  const getUnreadBgColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "bg-green-50/50 dark:bg-green-900/20";
+      case "lavender":
+        return "bg-purple-50/50 dark:bg-purple-900/20";
+      case "rose":
+        return "bg-rose-50/50 dark:bg-rose-900/20";
+      case "sepia":
+        return "bg-amber-100/50 dark:bg-amber-900/20";
+      default:
+        return "bg-amber-50/50 dark:bg-amber-900/20";
+    }
+  };
+
+  const accentColor = getAccentColor();
+  const hoverBgColor = getHoverBgColor();
+  const borderColor = getBorderColor();
+  const iconBgColor = getIconBgColor();
+  const unreadBgColor = getUnreadBgColor();
 
   // Handle click outside to close
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target)
+      ) {
         setIsOpen(false);
       }
     };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
 
@@ -99,17 +194,15 @@ const Notification = ({
   };
 
   const markAsRead = (id) => {
-    setLocalNotifications(prev =>
-      prev.map(notif =>
-        notif.id === id ? { ...notif, read: true } : notif
-      )
+    setLocalNotifications((prev) =>
+      prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif)),
     );
     if (onNotificationClick) onNotificationClick(id);
   };
 
   const markAllAsRead = () => {
-    setLocalNotifications(prev =>
-      prev.map(notif => ({ ...notif, read: true }))
+    setLocalNotifications((prev) =>
+      prev.map((notif) => ({ ...notif, read: true })),
     );
     if (onMarkAllRead) onMarkAllRead();
   };
@@ -129,7 +222,7 @@ const Notification = ({
       {/* Notification Bell Button */}
       <button
         onClick={toggleDropdown}
-        className="p-2 text-amber-600 hover:bg-amber-100 rounded-full transition-all relative group"
+        className={`p-2 ${accentColor} ${hoverBgColor} rounded-full transition-all relative group`}
         aria-label="Notifications"
       >
         <FaBell size={18} />
@@ -145,18 +238,22 @@ const Notification = ({
 
       {/* Notifications Dropdown */}
       {isOpen && (
-        <div className={`absolute ${positionClasses[position]} mt-2 ${width} bg-white rounded-2xl shadow-xl border border-amber-200 py-2 z-50`}>
+        <div
+          className={`absolute ${positionClasses[position]} mt-2 ${width} ${theme.background.card} rounded-2xl shadow-xl border ${borderColor} py-2 z-50`}
+        >
           {/* Header */}
-          <div className="px-4 py-2 text-sm font-semibold text-amber-600 border-b border-amber-200 flex justify-between items-center">
+          <div
+            className={`px-4 py-2 text-sm font-semibold ${accentColor} border-b ${borderColor} flex justify-between items-center`}
+          >
             <div className="flex items-center gap-2">
-              <FaBell className="text-amber-500" />
+              <FaBell className={accentColor} />
               <span>Notifications</span>
             </div>
             <div className="flex items-center gap-2">
               {unreadCount > 0 && (
                 <button
                   onClick={markAllAsRead}
-                  className="text-xs text-amber-600 hover:text-amber-700 hover:underline"
+                  className={`text-xs ${accentColor} hover:underline`}
                 >
                   Mark all read
                 </button>
@@ -164,7 +261,7 @@ const Notification = ({
               {localNotifications.length > 0 && (
                 <button
                   onClick={clearAll}
-                  className="text-xs text-gray-400 hover:text-gray-600"
+                  className="text-xs text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"
                   title="Clear all"
                 >
                   <FaTimes size={12} />
@@ -175,7 +272,7 @@ const Notification = ({
 
           {/* Notifications List */}
           {localNotifications.length === 0 ? (
-            <div className="px-4 py-8 text-center text-gray-500">
+            <div className={`px-4 py-8 text-center ${theme.text.tertiary}`}>
               <FaCheckCircle className="mx-auto text-3xl text-green-400 mb-2" />
               <p className="text-sm">All caught up!</p>
               <p className="text-xs mt-1">No new notifications</p>
@@ -189,34 +286,42 @@ const Notification = ({
                     key={notif.id}
                     to={notif.link || "#"}
                     onClick={() => markAsRead(notif.id)}
-                    className={`block px-4 py-3 hover:bg-amber-50 cursor-pointer transition ${
-                      !notif.read ? "bg-amber-50/50" : ""
+                    className={`block px-4 py-3 ${hoverBgColor} cursor-pointer transition ${
+                      !notif.read ? unreadBgColor : ""
                     }`}
                   >
                     <div className="flex gap-3">
                       {/* Icon */}
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center ${notif.iconColor}`}>
+                      <div
+                        className={`flex-shrink-0 w-8 h-8 rounded-full ${iconBgColor} flex items-center justify-center ${notif.iconColor}`}
+                      >
                         <Icon size={16} />
                       </div>
-                      
+
                       {/* Content */}
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-800">
+                        <p
+                          className={`text-sm font-medium ${theme.text.primary}`}
+                        >
                           {notif.message}
                         </p>
                         {notif.description && (
-                          <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">
+                          <p
+                            className={`text-xs ${theme.text.tertiary} mt-0.5 line-clamp-1`}
+                          >
                             {notif.description}
                           </p>
                         )}
-                        <p className="text-[10px] text-gray-400 mt-1">
+                        <p className={`text-[10px] ${theme.text.light} mt-1`}>
                           {notif.time}
                         </p>
                       </div>
 
                       {/* Unread indicator */}
                       {!notif.read && (
-                        <div className="w-2 h-2 bg-amber-500 rounded-full mt-1"></div>
+                        <div
+                          className={`w-2 h-2 ${accentColor.replace("text", "bg")} rounded-full mt-1`}
+                        ></div>
                       )}
                     </div>
                   </Link>
@@ -227,10 +332,10 @@ const Notification = ({
 
           {/* Footer */}
           {localNotifications.length > 0 && (
-            <div className="px-4 py-2 text-center border-t border-amber-200">
+            <div className={`px-4 py-2 text-center border-t ${borderColor}`}>
               <Link
                 to="/notifications"
-                className="text-sm text-amber-600 hover:text-amber-700 hover:underline"
+                className={`text-sm ${accentColor} hover:underline`}
                 onClick={() => setIsOpen(false)}
               >
                 View all notifications
@@ -246,40 +351,91 @@ const Notification = ({
 // Optional: Separate component for the notifications page
 export const NotificationsPage = () => {
   const [allNotifications, setAllNotifications] = useState(sampleNotifications);
+  const { theme, themeName } = useTheme();
 
   const markAsRead = (id) => {
-    setAllNotifications(prev =>
-      prev.map(notif =>
-        notif.id === id ? { ...notif, read: true } : notif
-      )
+    setAllNotifications((prev) =>
+      prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif)),
     );
   };
 
   const markAllAsRead = () => {
-    setAllNotifications(prev =>
-      prev.map(notif => ({ ...notif, read: true }))
+    setAllNotifications((prev) =>
+      prev.map((notif) => ({ ...notif, read: true })),
     );
   };
 
   const deleteNotification = (id) => {
-    setAllNotifications(prev => prev.filter(notif => notif.id !== id));
+    setAllNotifications((prev) => prev.filter((notif) => notif.id !== id));
   };
 
-  const unreadCount = allNotifications.filter(n => !n.read).length;
+  const unreadCount = allNotifications.filter((n) => !n.read).length;
+
+  // Theme-based styling
+  const getAccentGradient = () => {
+    switch (themeName) {
+      case "forest":
+        return "from-green-600 to-emerald-600";
+      case "lavender":
+        return "from-purple-600 to-pink-600";
+      case "rose":
+        return "from-rose-600 to-pink-600";
+      case "sepia":
+        return "from-amber-600 to-yellow-700";
+      default:
+        return "from-amber-600 to-yellow-600";
+    }
+  };
+
+  const getBorderColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "divide-green-100 dark:divide-green-800";
+      case "lavender":
+        return "divide-purple-100 dark:divide-purple-800";
+      case "rose":
+        return "divide-rose-100 dark:divide-rose-800";
+      case "sepia":
+        return "divide-amber-200 dark:divide-amber-700";
+      default:
+        return "divide-amber-100 dark:divide-amber-800";
+    }
+  };
+
+  const getUnreadBgColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "bg-green-50/30 dark:bg-green-900/20";
+      case "lavender":
+        return "bg-purple-50/30 dark:bg-purple-900/20";
+      case "rose":
+        return "bg-rose-50/30 dark:bg-rose-900/20";
+      case "sepia":
+        return "bg-amber-100/30 dark:bg-amber-900/20";
+      default:
+        return "bg-amber-50/30 dark:bg-amber-900/20";
+    }
+  };
+
+  const accentGradient = getAccentGradient();
+  const borderColor = getBorderColor();
+  const unreadBgColor = getUnreadBgColor();
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">
-          <span className="bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
+          <span
+            className={`bg-gradient-to-r ${accentGradient} bg-clip-text text-transparent`}
+          >
             Notifications
           </span>
         </h1>
         {unreadCount > 0 && (
           <button
             onClick={markAllAsRead}
-            className="text-amber-600 hover:text-amber-700 text-sm font-medium"
+            className={`${theme.text.accent} hover:underline text-sm font-medium`}
           >
             Mark all as read
           </button>
@@ -287,60 +443,82 @@ export const NotificationsPage = () => {
       </div>
 
       {/* Stats */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <div
+        className={`${theme.background.card} rounded-2xl shadow-lg p-6 mb-8 border ${theme.border.card}`}
+      >
         <div className="flex items-center justify-around">
           <div className="text-center">
-            <div className="text-2xl font-bold text-amber-600">{allNotifications.length}</div>
-            <div className="text-xs text-gray-500">Total</div>
+            <div className={`text-2xl font-bold ${theme.text.accent}`}>
+              {allNotifications.length}
+            </div>
+            <div className={`text-xs ${theme.text.tertiary}`}>Total</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">{unreadCount}</div>
-            <div className="text-xs text-gray-500">Unread</div>
+            <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+              {unreadCount}
+            </div>
+            <div className={`text-xs ${theme.text.tertiary}`}>Unread</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-600">{allNotifications.length - unreadCount}</div>
-            <div className="text-xs text-gray-500">Read</div>
+            <div className={`text-2xl font-bold ${theme.text.primary}`}>
+              {allNotifications.length - unreadCount}
+            </div>
+            <div className={`text-xs ${theme.text.tertiary}`}>Read</div>
           </div>
         </div>
       </div>
 
       {/* Notifications List */}
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div
+        className={`${theme.background.card} rounded-2xl shadow-lg overflow-hidden border ${theme.border.card}`}
+      >
         {allNotifications.length === 0 ? (
           <div className="text-center py-16">
             <FaCheckCircle className="text-5xl text-green-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">All caught up!</h3>
-            <p className="text-gray-500">You have no notifications at the moment</p>
+            <h3 className={`text-xl font-semibold ${theme.text.primary} mb-2`}>
+              All caught up!
+            </h3>
+            <p className={theme.text.tertiary}>
+              You have no notifications at the moment
+            </p>
           </div>
         ) : (
-          <div className="divide-y divide-amber-100">
+          <div className={`divide-y ${borderColor}`}>
             {allNotifications.map((notif) => {
               const Icon = notif.icon;
               return (
                 <div
                   key={notif.id}
-                  className={`p-6 ${!notif.read ? 'bg-amber-50/30' : ''}`}
+                  className={`p-6 ${!notif.read ? unreadBgColor : ""}`}
                 >
                   <div className="flex gap-4">
                     {/* Icon */}
-                    <div className={`flex-shrink-0 w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center ${notif.iconColor}`}>
+                    <div
+                      className={`flex-shrink-0 w-12 h-12 rounded-full ${theme.background.secondary} flex items-center justify-center ${notif.iconColor}`}
+                    >
                       <Icon size={20} />
                     </div>
 
                     {/* Content */}
                     <div className="flex-1">
                       <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold text-gray-800">{notif.message}</h3>
-                        <span className="text-xs text-gray-400">{notif.time}</span>
+                        <h3 className={`font-semibold ${theme.text.primary}`}>
+                          {notif.message}
+                        </h3>
+                        <span className={`text-xs ${theme.text.light}`}>
+                          {notif.time}
+                        </span>
                       </div>
                       {notif.description && (
-                        <p className="text-sm text-gray-600 mb-3">{notif.description}</p>
+                        <p className={`text-sm ${theme.text.secondary} mb-3`}>
+                          {notif.description}
+                        </p>
                       )}
                       <div className="flex gap-3">
                         {notif.link && (
                           <Link
                             to={notif.link}
-                            className="text-xs text-amber-600 hover:text-amber-700 font-medium"
+                            className={`text-xs ${theme.text.accent} hover:underline font-medium`}
                           >
                             View Details →
                           </Link>
@@ -348,14 +526,14 @@ export const NotificationsPage = () => {
                         {!notif.read && (
                           <button
                             onClick={() => markAsRead(notif.id)}
-                            className="text-xs text-gray-500 hover:text-gray-700"
+                            className={`text-xs ${theme.text.tertiary} hover:${theme.text.primary}`}
                           >
                             Mark as read
                           </button>
                         )}
                         <button
                           onClick={() => deleteNotification(notif.id)}
-                          className="text-xs text-rose-500 hover:text-rose-700"
+                          className="text-xs text-rose-500 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300"
                         >
                           Delete
                         </button>
@@ -364,7 +542,9 @@ export const NotificationsPage = () => {
 
                     {/* Unread indicator */}
                     {!notif.read && (
-                      <div className="w-3 h-3 bg-amber-500 rounded-full mt-2"></div>
+                      <div
+                        className={`w-3 h-3 ${theme.text.accent.replace("text", "bg")} rounded-full mt-2`}
+                      ></div>
                     )}
                   </div>
                 </div>
