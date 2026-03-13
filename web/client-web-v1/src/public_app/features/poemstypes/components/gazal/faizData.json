@@ -1,0 +1,395 @@
+{
+  "poet": {
+    "id": "faiz-ahmed-faiz",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Faiz_Ahmed_Faiz.jpg/800px-Faiz_Ahmed_Faiz.jpg",
+    "wikipedia": "https://en.wikipedia.org/wiki/Faiz_Ahmed_Faiz",
+    "birthYear": 1911,
+    "deathYear": 1984,
+    "birthPlace": "Sialkot, British India",
+    "deathPlace": "Lahore, Pakistan",
+    "languages": [
+      {
+        "code": "en",
+        "name": "English",
+        "nativeName": "English",
+        "flag": "🇬🇧",
+        "color": "from-blue-500 to-indigo-500",
+        "content": {
+          "pageTitle": "Faiz Ahmed Faiz - The Voice of Revolution",
+          "pageSubtitle": "Explore the timeless poetry of Faiz Ahmed Faiz",
+          "languageLabel": "Read in your language",
+          "aboutTitle": "About the Poet",
+          "worksTitle": "Famous Works",
+          "ghazalsTitle": "Popular Ghazals",
+          "quotesTitle": "Notable Quotes",
+          "awardsTitle": "Awards & Recognition",
+          "readButton": "Read Ghazals in {language}",
+          "wikipediaButton": "Wikipedia",
+          "overviewTitle": "Read {poetName} in Different Languages",
+          "bio": "One of the most celebrated poets of the Urdu language, and a Nobel Prize nominee. His work combines classical ghazal tradition with revolutionary themes. He was a prominent member of the Progressive Writers' Movement and his poetry reflects deep humanism, socialist ideals, and resistance against oppression. His imprisonment under the Rawalpindi Conspiracy Case became a turning point in his life and poetry, leading to his most powerful works.",
+          "famousWorks": [
+            {
+              "title": "Naqsh-e-Faryadi",
+              "translation": "Imprint of Complaint",
+              "year": 1941,
+              "description": "His first collection that established him as a major voice in Urdu poetry"
+            },
+            {
+              "title": "Dast-e-Saba",
+              "translation": "The Morning Breeze",
+              "year": 1952,
+              "description": "Poems of hope and resistance written during political turmoil"
+            },
+            {
+              "title": "Zindan-nama",
+              "translation": "Prison Notes",
+              "year": 1956,
+              "description": "Written during his imprisonment, reflecting on freedom and dignity"
+            },
+            {
+              "title": "Dast-e-Tah-e-Sang",
+              "translation": "Hand Under the Stone",
+              "year": 1965,
+              "description": "Later works showing mature reflection on life and love"
+            }
+          ],
+          "popularGhazals": [
+            {
+              "title": "Mujh se pehli si mohabbat",
+              "translation": "Do not ask me for that love again",
+              "firstLine": "Do not ask me for that love again, my love",
+              "fullText": "Do not ask me for that love again, my love.\nThat world once existed, beautiful and true,\nWhere pain had its own charm, sorrow its own grace,\nWhere the memory of your lips was a comfort,\nWhere your beautiful body was a promise of spring.\nThat world once existed, and was mine.\nBut its beauty is now lost to me.\nMy love, do not ask me for that love again.",
+              "notes": "One of Faiz's most beloved ghazals about the transformation of love"
+            },
+            {
+              "title": "Bol ke lab azad hain tere",
+              "translation": "Speak, for your lips are free",
+              "firstLine": "Speak, for your lips are free",
+              "fullText": "Speak, for your lips are free.\nSpeak, your tongue is still your own.\nYour body is still yours, your limbs are free.\nSpeak, for life is still yours.\nSee how in the blacksmith's shop,\nThe flames rise, the iron glows,\nThe locks open, the chains fall.\nSpeak, for your lips are free.",
+              "notes": "A revolutionary poem about freedom and expression"
+            }
+          ],
+          "quotes": [
+            {
+              "text": "The true purpose of poetry is to create beauty and to tell the truth.",
+              "source": "Interview, 1964"
+            },
+            {
+              "text": "The heart of humanity beats in every language.",
+              "source": "Nobel lecture, 1972"
+            },
+            {
+              "text": "In prison, I learned that freedom is not just of the body, but of the spirit.",
+              "source": "Zindan-nama"
+            }
+          ],
+          "awards": [
+            {
+              "name": "Nobel Prize in Literature",
+              "year": "1972",
+              "status": "Nominee",
+              "description": "Nominated for his profound impact on world literature"
+            },
+            {
+              "name": "Lenin Peace Prize",
+              "year": "1962",
+              "description": "For his contributions to peace and social justice"
+            },
+            {
+              "name": "Nigar Awards",
+              "year": "1953, 1964",
+              "description": "Pakistan's premier film and literary awards"
+            },
+            {
+              "name": "Avicenna Prize",
+              "year": "1970",
+              "description": "For his poetic excellence and humanism"
+            }
+          ]
+        }
+      },
+      {
+        "code": "hi",
+        "name": "Hindi",
+        "nativeName": "हिन्दी",
+        "flag": "🇮🇳",
+        "color": "from-orange-500 to-red-500",
+        "content": {
+          "pageTitle": "फ़ैज़ अहमद फ़ैज़ - इंक़लाब की आवाज़",
+          "pageSubtitle": "फ़ैज़ अहमद फ़ैज़ की कालजयी शायरी को जानें",
+          "languageLabel": "अपनी भाषा में पढ़ें",
+          "aboutTitle": "कवि के बारे में",
+          "worksTitle": "प्रमुख रचनाएँ",
+          "ghazalsTitle": "लोकप्रिय ग़ज़लें",
+          "quotesTitle": "उल्लेखनीय उद्धरण",
+          "awardsTitle": "पुरस्कार और सम्मान",
+          "readButton": "ग़ज़लें पढ़ें {language} में",
+          "wikipediaButton": "विकिपीडिया",
+          "overviewTitle": "विभिन्न भाषाओं में {poetName} को पढ़ें",
+          "bio": "उर्दू भाषा के सबसे प्रसिद्ध कवियों में से एक और नोबेल पुरस्कार के लिए नामांकित। उनकी रचनाएँ शास्त्रीय ग़ज़ल परंपरा को क्रांतिकारी विषयों के साथ जोड़ती हैं। वे प्रगतिशील लेखक आंदोलन के प्रमुख सदस्य थे और उनकी कविता गहरे मानवतावाद, समाजवादी आदर्शों और उत्पीड़न के प्रतिरोध को दर्शाती है। रावलपिंडी साजिश मामले में उनकी कैद उनके जीवन और कविता का महत्वपूर्ण मोड़ बनी, जिससे उनकी सबसे शक्तिशाली रचनाओं का जन्म हुआ।",
+          "famousWorks": [
+            {
+              "title": "नक़्श-ए-फ़र्यादी",
+              "translation": "शिकायत का निशान",
+              "year": 1941,
+              "description": "उनका पहला संग्रह जिसने उन्हें उर्दू शायरी में एक प्रमुख आवाज़ के रूप में स्थापित किया"
+            },
+            {
+              "title": "दस्त-ए-सबा",
+              "translation": "सुबह की हवा",
+              "year": 1952,
+              "description": "राजनीतिक उथल-पुथल के दौरान लिखी गई आशा और प्रतिरोध की कविताएँ"
+            },
+            {
+              "title": "ज़िन्दान-नामा",
+              "translation": "जेल नोट्स",
+              "year": 1956,
+              "description": "उनकी कैद के दौरान लिखी गई, स्वतंत्रता और गरिमा पर चिंतन"
+            }
+          ],
+          "popularGhazals": [
+            {
+              "title": "मुझ से पहली सी मोहब्बत",
+              "translation": "वह पहला प्यार मुझसे न माँग",
+              "firstLine": "वह पहला प्यार मुझसे न माँग, मेरे महबूब",
+              "fullText": "वह पहला प्यार मुझसे न माँग, मेरे महबूब।\nवह दुनिया कभी थी, खूबसूरत और सच्ची,\nजहाँ दर्द का अपना आकर्षण था, गम का अपना अंदाज़,\nजहाँ तुम्हारे होठों की याद दिलासा थी,\nजहाँ तुम्हारा खूबसूरत बदन बहार का वादा था।\nवह दुनिया कभी थी, और मेरी थी।\nलेकिन अब उसकी खूबसूरती मुझसे खो गई।\nमेरे महबूब, वह पहला प्यार मुझसे न माँग।",
+              "notes": "प्रेम के परिवर्तन पर फ़ैज़ की सबसे प्रिय ग़ज़लों में से एक"
+            }
+          ],
+          "quotes": [
+            {
+              "text": "कविता का सच्चा उद्देश्य सौंदर्य सृजन और सत्य कथन है।",
+              "source": "साक्षात्कार, 1964"
+            },
+            {
+              "text": "मानवता का दिल हर भाषा में धड़कता है।",
+              "source": "नोबेल व्याख्यान, 1972"
+            }
+          ],
+          "awards": [
+            {
+              "name": "नोबेल पुरस्कार",
+              "year": "1972",
+              "status": "नामांकन",
+              "description": "विश्व साहित्य में उनके गहरे योगदान के लिए नामांकित"
+            },
+            {
+              "name": "लेनिन शांति पुरस्कार",
+              "year": "1962",
+              "description": "शांति और सामाजिक न्याय में योगदान के लिए"
+            }
+          ]
+        }
+      },
+      {
+        "code": "ur",
+        "name": "Urdu",
+        "nativeName": "اردو",
+        "flag": "🇵🇰",
+        "color": "from-green-500 to-emerald-500",
+        "content": {
+          "pageTitle": "فیض احمد فیض - آوازِ انقلاب",
+          "pageSubtitle": "فیض احمد فیض کی لازوال شاعری سے لطف اندوز ہوں",
+          "languageLabel": "اپنی زبان میں پڑھیں",
+          "aboutTitle": "شاعر کے بارے میں",
+          "worksTitle": "مشہور تصانیف",
+          "ghazalsTitle": "مقبول غزلیں",
+          "quotesTitle": "نمایاں اقتباسات",
+          "awardsTitle": "ایوارڈز و اعزازات",
+          "readButton": "غزلیں پڑھیں {language} میں",
+          "wikipediaButton": "ویکیپیڈیا",
+          "overviewTitle": "مختلف زبانوں میں {poetName} کو پڑھیں",
+          "bio": "اردو زبان کے سب سے مشہور شعرا میں سے ایک اور نوبل انعام کے لیے نامزد۔ ان کی شاعری کلاسیکی غزل کی روایت کو انقلابی موضوعات کے ساتھ جوڑتی ہے۔ وہ ترقی پسند تحریک کے نمایاں رکن تھے اور ان کی شاعری گہری انسان دوستی، سوشلسٹ نظریات اور جبر کے خلاف مزاحمت کی عکاس ہے۔ راولپنڈی سازش کیس میں ان کی قید ان کی زندگی اور شاعری کا اہم موڑ بنی، جس سے ان کی طاقتور ترین تخلیقات وجود میں آئیں۔",
+          "famousWorks": [
+            {
+              "title": "نقشِ فریادی",
+              "translation": "نقشِ فریادی",
+              "year": 1941,
+              "description": "ان کا پہلا مجموعہ جس نے انہیں اردو شاعری میں ایک اہم آواز کے طور پر متعارف کرایا"
+            },
+            {
+              "title": "دستِ صبا",
+              "translation": "دستِ صبا",
+              "year": 1952,
+              "description": "سیاسی ہنگاموں کے دوران لکھی گئی امید اور مزاحمت کی نظمیں"
+            },
+            {
+              "title": "زندان نامہ",
+              "translation": "زندان نامہ",
+              "year": 1956,
+              "description": "ان کی قید کے دوران لکھی گئی، آزادی اور وقار پر غور و فکر"
+            }
+          ],
+          "popularGhazals": [
+            {
+              "title": "مجھ سے پہلی سی محبت",
+              "translation": "مجھ سے پہلی سی محبت",
+              "firstLine": "مجھ سے پہلی سی محبت میرے محبوب نہ مانگ",
+              "fullText": "مجھ سے پہلی سی محبت میرے محبوب نہ مانگ\nمیں نے سمجھا تھا کہ تو ہے تو درخشاں ہے حیات\nتیرا غم ہے تو غمِ دہر کا جھگڑا کیا ہے\nتیری صورت سے ہے عالم میں بہاروں کو ثبات\nتیری آنکھوں کے سوا دنیا میں رکھا کیا ہے\nتو جو مل جائے تو تقدیر نگوں ہو جائے\nیہ نہ تھی ہماری قسمت کہ وصال یار ہوتا",
+              "notes": "محبت کی داستان پر فیض کی مشہور ترین غزلوں میں سے ایک"
+            }
+          ],
+          "quotes": [
+            {
+              "text": "شعر کا اصل مقصد حسن پیدا کرنا اور سچ کہنا ہے۔",
+              "source": "انٹرویو، ۱۹۶۴"
+            },
+            {
+              "text": "انسانیت کا دل ہر زبان میں دھڑکتا ہے۔",
+              "source": "نوبل لیکچر، ۱۹۷۲"
+            }
+          ],
+          "awards": [
+            {
+              "name": "نوبل انعام",
+              "year": "۱۹۷۲",
+              "status": "نامزدگی",
+              "description": "عالمی ادب میں گہرے اثرات کے لیے نامزد"
+            },
+            {
+              "name": "لینن امن انعام",
+              "year": "۱۹۶۲",
+              "description": "امن اور سماجی انصاف میں شراکت کے لیے"
+            }
+          ]
+        }
+      },
+      {
+        "code": "fa",
+        "name": "Persian",
+        "nativeName": "فارسی",
+        "flag": "🇮🇷",
+        "color": "from-purple-500 to-pink-500",
+        "content": {
+          "pageTitle": "فیض احمد فیض - صدای انقلاب",
+          "pageSubtitle": "با شعر بی‌زمان فیض احمد فیض آشنا شوید",
+          "languageLabel": "به زبان خود بخوانید",
+          "aboutTitle": "درباره شاعر",
+          "worksTitle": "آثار مشهور",
+          "ghazalsTitle": "غزل‌های محبوب",
+          "quotesTitle": "سخنان برگزیده",
+          "awardsTitle": "جوایز و افتخارات",
+          "readButton": "غزل‌ها را به {language} بخوانید",
+          "wikipediaButton": "ویکی‌پدیا",
+          "overviewTitle": "{poetName} را به زبان‌های مختلف بخوانید",
+          "bio": "یکی از مشهورترین شاعران زبان اردو و نامزد جایزه نوبل. شعر او سنت کلاسیک غزل را با مضامین انقلابی ترکیب می‌کند. او عضو برجسته جنبش نویسندگان پیشرو بود و شعرش بازتاب دهنده انسان‌گرایی عمیق، آرمان‌های سوسیالیستی و مقاومت در برابر ظلم است. زندانی شدن او در پرونده توطئه راولپندی نقطه عطفی در زندگی و شعرش شد و منجر به قدرتمندترین آثار او گردید.",
+          "famousWorks": [
+            {
+              "title": "نقشِ فریدی",
+              "translation": "نقشِ فریدی",
+              "year": 1941,
+              "description": "اولین مجموعه او که وی را به عنوان صدایی مهم در شعر اردو معرفی کرد"
+            },
+            {
+              "title": "دستِ صبا",
+              "translation": "دستِ صبا",
+              "year": 1952,
+              "description": "اشعاری از امید و مقاومت که در دوران آشوب سیاسی سروده شد"
+            }
+          ],
+          "popularGhazals": [
+            {
+              "title": "از من آن عشق نخستین",
+              "translation": "از من آن عشق نخستین",
+              "firstLine": "از من آن عشق نخستین مخواه ای معشوق من",
+              "fullText": "از من آن عشق نخستین مخواه ای معشوق من\nآن جهان بود روزگاری، زیبا و راستین\nکآنجا درد را فسون بود، غم را شیوه‌ای\nیاد لعل لبت بود مایه تسکین من\nوعده بهار بود آن پیکر زیبای تو\nبود آن جهان و بود از آن من\nلیک زیبایی اش امروز از من گم شده\nاز من آن عشق نخستین مخواه ای معشوق من",
+              "notes": "یکی از محبوب‌ترین غزل‌های فیض درباره دگرگونی عشق"
+            }
+          ],
+          "quotes": [
+            {
+              "text": "هدف راستین شعر آفریدن زیبایی و گفتن حقیقت است.",
+              "source": "مصاحبه، ۱۹۶۴"
+            }
+          ],
+          "awards": [
+            {
+              "name": "جایزه نوبل",
+              "year": "۱۹۷۲",
+              "status": "نامزد",
+              "description": "به خاطر تأثیر عمیق بر ادبیات جهان"
+            },
+            {
+              "name": "جایزه صلح لنین",
+              "year": "۱۹۶۲",
+              "description": "برای مشارکت در صلح و عدالت اجتماعی"
+            }
+          ]
+        }
+      },
+      {
+        "code": "fr",
+        "name": "French",
+        "nativeName": "Français",
+        "flag": "🇫🇷",
+        "color": "from-cyan-500 to-blue-500",
+        "content": {
+          "pageTitle": "Faiz Ahmed Faiz - La Voix de la Révolution",
+          "pageSubtitle": "Découvrez la poésie intemporelle de Faiz Ahmed Faiz",
+          "languageLabel": "Lire dans votre langue",
+          "aboutTitle": "À propos du poète",
+          "worksTitle": "Œuvres célèbres",
+          "ghazalsTitle": "Ghazals populaires",
+          "quotesTitle": "Citations notables",
+          "awardsTitle": "Prix et distinctions",
+          "readButton": "Lire les ghazals en {language}",
+          "wikipediaButton": "Wikipédia",
+          "overviewTitle": "Lire {poetName} dans différentes langues",
+          "bio": "L'un des poètes les plus célèbres de la langue ourdoue, nominé pour le prix Nobel. Son œuvre allie la tradition classique du ghazal à des thèmes révolutionnaires. Il était un membre éminent du Mouvement des écrivains progressistes et sa poésie reflète un humanisme profond, des idéaux socialistes et une résistance contre l'oppression. Son emprisonnement dans l'affaire du complot de Rawalpindi est devenu un tournant dans sa vie et sa poésie, donnant naissance à ses œuvres les plus puissantes.",
+          "famousWorks": [
+            {
+              "title": "Naqsh-e-Faryadi",
+              "translation": "L'Empreinte de la Plainte",
+              "year": 1941,
+              "description": "Sa première collection qui l'a établi comme une voix majeure de la poésie ourdoue"
+            },
+            {
+              "title": "Dast-e-Saba",
+              "translation": "La Brise Matinale",
+              "year": 1952,
+              "description": "Poèmes d'espoir et de résistance écrits pendant les troubles politiques"
+            },
+            {
+              "title": "Zindan-nama",
+              "translation": "Notes de Prison",
+              "year": 1956,
+              "description": "Écrit pendant son emprisonnement, réfléchissant sur la liberté et la dignité"
+            }
+          ],
+          "popularGhazals": [
+            {
+              "title": "Ne me demande plus",
+              "translation": "Ne me demande plus cet amour d'antan",
+              "firstLine": "Ne me demande plus cet amour d'antan, mon amour",
+              "fullText": "Ne me demande plus cet amour d'antan, mon amour.\nCe monde existait autrefois, beau et vrai,\nOù la douleur avait son charme, la peine sa grâce,\nOù le souvenir de tes lèvres était un réconfort,\nOù ton beau corps était une promesse de printemps.\nCe monde existait autrefois, et il était mien.\nMais sa beauté m'est aujourd'hui perdue.\nMon amour, ne me demande plus cet amour d'antan.",
+              "notes": "L'un des ghazals les plus aimés de Faiz sur la transformation de l'amour"
+            }
+          ],
+          "quotes": [
+            {
+              "text": "Le vrai but de la poésie est de créer la beauté et de dire la vérité.",
+              "source": "Interview, 1964"
+            },
+            {
+              "text": "Le cœur de l'humanité bat dans chaque langue.",
+              "source": "Conférence Nobel, 1972"
+            }
+          ],
+          "awards": [
+            {
+              "name": "Prix Nobel de Littérature",
+              "year": "1972",
+              "status": "Nominé",
+              "description": "Nominé pour son impact profond sur la littérature mondiale"
+            },
+            {
+              "name": "Prix Lénine pour la Paix",
+              "year": "1962",
+              "description": "Pour sa contribution à la paix et à la justice sociale"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

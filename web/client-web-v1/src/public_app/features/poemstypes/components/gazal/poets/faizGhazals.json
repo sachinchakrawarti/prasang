@@ -1,0 +1,221 @@
+{
+  "poet": {
+    "id": "faiz-ahmed-faiz",
+    "name": "Faiz Ahmed Faiz",
+    "nativeName": "فیض احمد فیض",
+    "birthYear": 1911,
+    "deathYear": 1984,
+    "birthPlace": "Sialkot, British India",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Faiz_Ahmed_Faiz.jpg/800px-Faiz_Ahmed_Faiz.jpg"
+  },
+  "ghazals": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "مجھ سے پہلی سی محبت",
+      "titleEnglish": "Mujh se pehli si mohabbat",
+      "year": 1952,
+      "collection": "دستِ صبا",
+      "collectionEnglish": "Dast-e-Saba",
+      "original": {
+        "language": "urdu",
+        "script": "urdu",
+        "text": "مجھ سے پہلی سی محبت میرے محبوب نہ مانگ\nمیں نے سمجھا تھا کہ تو ہے تو درخشاں ہے حیات\nتیرا غم ہے تو غمِ دہر کا جھگڑا کیا ہے\nتیری صورت سے ہے عالم میں بہاروں کو ثبات\nتیری آنکھوں کے سوا دنیا میں رکھا کیا ہے\nتو جو مل جائے تو تقدیر نگوں ہو جائے\nیہ نہ تھی ہماری قسمت کہ وصال یار ہوتا",
+        "firstLine": "مجھ سے پہلی سی محبت میرے محبوب نہ مانگ"
+      },
+      "translations": [
+        {
+          "language": "hindi",
+          "script": "devanagari",
+          "title": "मुझ से पहली सी मोहब्बत",
+          "firstLine": "मुझ से पहली सी मोहब्बत मेरे महबूब न माँग",
+          "text": "मुझ से पहली सी मोहब्बत मेरे महबूब न माँग\nमैंने समझा था कि तू है तो दरख़्शाँ है हयात\nतेरा ग़म है तो ग़म-ए-दहर का झगड़ा क्या है\nतेरी सूरत से है आलम में बहारों को सबात\nतेरी आँखों के सिवा दुनिया में रक्खा क्या है\nतू जो मिल जाए तो तक़दीर निगूँ हो जाए\nये न थी हमारी क़िस्मत कि विसाल-ए-यार होता",
+          "notes": "फ़ैज़ की सबसे प्रिय ग़ज़लों में से एक"
+        },
+        {
+          "language": "english",
+          "script": "latin",
+          "title": "Do not ask me for that love again",
+          "firstLine": "Do not ask me for that love again, my love",
+          "text": "Do not ask me for that love again, my love.\n\nI once believed that your presence made life radiant,\nYour sorrow outweighed all worldly cares,\nYour face gave permanence to the beauty of springs,\nBeyond your eyes, what else is there in this world?\nIf you were mine, fate would bow in humility,\nBut it was not my destiny to unite with my beloved.",
+          "notes": "One of Faiz's most beloved ghazals about the transformation of love"
+        },
+        {
+          "language": "persian",
+          "script": "persian",
+          "title": "از من آن عشق نخستین",
+          "firstLine": "از من آن عشق نخستین مخواه ای معشوق من",
+          "text": "از من آن عشق نخستین مخواه ای معشوق من\nمن گمان بردم که هستی تو که تابان است زندگی\nغم تو باشد چه غم از غصه‌های روزگار\nاز رخ تو هست در عالم بهاران را ثبات\nچیست در عالم به جز چشمان تو کایینه دار\nتو بیابی تا شود تقدیر وارونه مرا\nاین نبود از بخت ما پیوند با دلدار را",
+          "notes": "یکی از محبوب‌ترین غزل‌های فیض"
+        },
+        {
+          "language": "french",
+          "script": "latin",
+          "title": "Ne me demande plus cet amour",
+          "firstLine": "Ne me demande plus cet amour d'antan, mon amour",
+          "text": "Ne me demande plus cet amour d'antan, mon amour.\n\nJe croyais que ta présence rendait la vie radieuse,\nTon chagrin surpassait tous les soucis du monde,\nTon visage donnait la permanence aux beautés du printemps,\nAu-delà de tes yeux, qu'y a-t-il d'autre en ce monde ?\nSi tu étais mienne, le destin s'inclinerait avec humilité,\nMais il n'était pas dans ma destinée de m'unir à mon aimé.",
+          "notes": "L'un des ghazals les plus aimés de Faiz"
+        }
+      ],
+      "themes": ["Love", "Memory", "Loss"],
+      "likes": 1543,
+      "reads": 5678
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "بول کہ لب آزاد ہیں تیرے",
+      "titleEnglish": "Bol ke lab azad hain tere",
+      "year": 1956,
+      "collection": "زندان نامہ",
+      "collectionEnglish": "Zindan-nama",
+      "original": {
+        "language": "urdu",
+        "script": "urdu",
+        "text": "بول کہ لب آزاد ہیں تیرے\nبول کہ زبان اب بھی تیری ہے\nتیرا جسم ہے تیرا اپنا\nبول کہ جان اب بھی تیری ہے\nدیکھ کہ لوہے کی دکان میں\nآگ لگی ہے، لوہار اندر\nآگ لگی ہے، لوہے کی سل\nآگ لگی ہے، زنجیریں پگھل\nبول کہ لب آزاد ہیں تیرے",
+        "firstLine": "بول کہ لب آزاد ہیں تیرے"
+      },
+      "translations": [
+        {
+          "language": "hindi",
+          "script": "devanagari",
+          "title": "बोल कि लब आज़ाद हैं तेरे",
+          "firstLine": "बोल कि लब आज़ाद हैं तेरे",
+          "text": "बोल कि लब आज़ाद हैं तेरे\nबोल कि ज़बान अब भी तेरी है\nतेरा जिस्म है तेरा अपना\nबोल कि जान अब भी तेरी है\nदेख कि लोहे की दुकान में\nआग लगी है, लोहार अंदर\nआग लगी है, लोहे की सल\nआग लगी है, ज़ंजीरें पिघल\nबोल कि लब आज़ाद हैं तेरे",
+          "notes": "आज़ादी और अभिव्यक्ति पर एक क्रांतिकारी कविता"
+        },
+        {
+          "language": "english",
+          "script": "latin",
+          "title": "Speak, for your lips are free",
+          "firstLine": "Speak, for your lips are free",
+          "text": "Speak, for your lips are free.\nSpeak, your tongue is still your own.\nYour body is still yours, your limbs are free.\nSpeak, for life is still yours.\n\nSee how in the blacksmith's shop,\nThe flames rise, the iron glows,\nThe locks open, the chains fall.\nSpeak, for your lips are free.",
+          "notes": "A revolutionary poem about freedom and expression"
+        },
+        {
+          "language": "persian",
+          "script": "persian",
+          "title": "بگو که لب‌هايت آزاد است",
+          "firstLine": "بگو که لب‌هايت آزاد است",
+          "text": "بگو که لب‌هايت آزاد است\nبگو، زبانت هنوز از آن توست\nبدنت هنوز از آن توست، اعضایت آزادند\nبگو، زیرا زندگی هنوز از آن توست\n\nببین چگونه در آهنگری\nشعله‌ها برمی‌خیزند، آهن می‌درخشد\nقفل‌ها باز می‌شوند، زنجیرها می‌افتند\nبگو که لب‌هايت آزاد است",
+          "notes": "شعری انقلابی درباره آزادی و بیان"
+        },
+        {
+          "language": "french",
+          "script": "latin",
+          "title": "Parle, car tes lèvres sont libres",
+          "firstLine": "Parle, car tes lèvres sont libres",
+          "text": "Parle, car tes lèvres sont libres.\nParle, ta langue est encore tienne.\nTon corps est encore tien, tes membres sont libres.\nParle, car la vie est encore tienne.\n\nVois comme dans la forge,\nLes flammes s'élèvent, le fer rougeoie,\nLes serrures s'ouvrent, les chaînes tombent.\nParle, car tes lèvres sont libres.",
+          "notes": "Un poème révolutionnaire sur la liberté et l'expression"
+        }
+      ],
+      "themes": ["Freedom", "Revolution", "Hope"],
+      "likes": 2341,
+      "reads": 7890
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "title": "تنہا تنہا تنہا",
+      "titleEnglish": "Tanha tanha tanha",
+      "year": 1965,
+      "collection": "دستِ تہِ سنگ",
+      "collectionEnglish": "Dast-e-Tah-e-Sang",
+      "original": {
+        "language": "urdu",
+        "script": "urdu",
+        "text": "تنہا تنہا تنہا مجھ کو یہ راہ جانا ہے\nکوئی نہ آئے گا میرے ساتھ کوئی نہ آئے گا\nاندھیری رات ہے، منزل ہے دور\nمگر مجھے پہنچنا ہے، تنہا تنہا تنہا\n\nمیرے ساتھی مجھ کو بیچ راہ چھوڑ گئے\nکوئی سو گیا، کوئی لوٹ گیا\nراہ دراز ہے، سفر ہے مشکل\nمگر مجھے پورا کرنا ہے، تنہا تنہا تنہا",
+        "firstLine": "تنہا تنہا تنہا مجھ کو یہ راہ جانا ہے"
+      },
+      "translations": [
+        {
+          "language": "hindi",
+          "script": "devanagari",
+          "title": "तन्हा तन्हा तन्हा",
+          "firstLine": "तन्हा तन्हा तन्हा मुझको ये राह जाना है",
+          "text": "तन्हा तन्हा तन्हा मुझको ये राह जाना है\nकोई न आएगा मेरे साथ कोई न आएगा\nअंधेरी रात है, मंज़िल है दूर\nमगर मुझे पहुँचना है, तन्हा तन्हा तन्हा\n\nमेरे साथी मुझको बीच राह छोड़ गए\nकोई सो गया, कोई लौट गया\nराह दराज़ है, सफ़र है मुश्किल\nमगर मुझे पूरा करना है, तन्हा तन्हा तन्हा",
+          "notes": "एकांत और दृढ़ संकल्प पर मार्मिक ग़ज़ल"
+        },
+        {
+          "language": "english",
+          "script": "latin",
+          "title": "Alone, alone, alone",
+          "firstLine": "Alone, alone, alone, I have to walk this path",
+          "text": "Alone, alone, alone, I have to walk this path.\nNo one will come with me, no one will share my pain.\nThe night is dark, the destination far,\nBut I have to reach there, alone, alone, alone.\n\nMy companions left me midway,\nSome fell asleep, some turned back.\nThe road is long, the journey hard,\nBut I have to complete it, alone, alone, alone.",
+          "notes": "A poignant ghazal about solitude and determination"
+        },
+        {
+          "language": "persian",
+          "script": "persian",
+          "title": "تنها تنها تنها",
+          "firstLine": "تنها تنها تنها، باید این راه را بروم",
+          "text": "تنها تنها تنها، باید این راه را بروم\nهیچ کس با من نخواهد آمد، هیچ کس درد مرا تقسیم نخواهد کرد\nشب تاریک است، مقصد دور\nاما باید برسم، تنها تنها تنها\n\nرفقا در نیمه راه رهایم کردند\nبعضی به خواب رفتند، بعضی بازگشتند\nراه دراز است، سفر سخت\nاما باید تمامش کنم، تنها تنها تنها",
+          "notes": "غزلی پرمعنا درباره تنهایی و عزم"
+        },
+        {
+          "language": "french",
+          "script": "latin",
+          "title": "Seul, seul, seul",
+          "firstLine": "Seul, seul, seul, je dois parcourir ce chemin",
+          "text": "Seul, seul, seul, je dois parcourir ce chemin.\nPersonne ne viendra avec moi, personne ne partagera ma peine.\nLa nuit est noire, la destination lointaine,\nMais je dois y arriver, seul, seul, seul.\n\nMes compagnons m'ont abandonné en chemin,\nCertains se sont endormis, d'autres sont retournés.\nLa route est longue, le voyage difficile,\nMais je dois l'achever, seul, seul, seul.",
+          "notes": "Un ghazal poignant sur la solitude et la détermination"
+        }
+      ],
+      "themes": ["Solitude", "Journey", "Perseverance"],
+      "likes": 1876,
+      "reads": 5432
+    },
+    {
+      "id": 4,
+      "number": 4,
+      "title": "گلوں میں رنگ بھرے",
+      "titleEnglish": "Gulon mein rang bhare",
+      "year": 1941,
+      "collection": "نقشِ فریادی",
+      "collectionEnglish": "Naqsh-e-Faryadi",
+      "original": {
+        "language": "urdu",
+        "script": "urdu",
+        "text": "گلوں میں رنگ بھرے بادِ نوبہار چلے\nچلے بھی آؤ کہ گلشن کا انتظار چلے\nقفس میں خوش ہوں تو بلبل کے نالے کیا ہیں\nگلوں میں رنگ بھرے بادِ نوبہار چلے\n\nوہ دن کہ تھے کہ تیرے ساتھ تھے مسلسل\nوہ راتیں تھیں کہ جگنو سے تھیں منور\nاب وہ نہیں تو دنیا ہے سنسان\nگلوں میں رنگ بھرے بادِ نوبہار چلے",
+        "firstLine": "گلوں میں رنگ بھرے بادِ نوبہار چلے"
+      },
+      "translations": [
+        {
+          "language": "hindi",
+          "script": "devanagari",
+          "title": "गुलों में रंग भरे",
+          "firstLine": "गुलों में रंग भरे बाद-ए-नौबहार चले",
+          "text": "गुलों में रंग भरे बाद-ए-नौबहार चले\nचले भी आओ कि गुलशन का इंतज़ार चले\nक़फ़स में ख़ुश हूँ तो बुलबुल के नाले क्या हैं\nगुलों में रंग भरे बाद-ए-नौबहार चले\n\nवो दिन कि थे कि तेरे साथ थे मुसलसल\nवो रातें थीं कि जुगनू से थीं मुनव्वर\nअब वो नहीं तो दुनिया है सुनसान\nगुलों में रंग भरे बाद-ए-नौबहार चले",
+          "notes": "वसंत में प्रेम और लालसा पर एक क्लासिक ग़ज़ल"
+        },
+        {
+          "language": "english",
+          "script": "latin",
+          "title": "The flowers are filled with colors",
+          "firstLine": "The flowers are filled with colors, the spring breeze blows",
+          "text": "The flowers are filled with colors, the spring breeze blows,\nCome now, for the garden awaits in anticipation.\nIf I'm happy in my cage, why should the nightingale lament?\nThe flowers are filled with colors, the spring breeze blows.\n\nThose days when you were with me continuously,\nThose nights illuminated by fireflies,\nNow you're gone, and the world is desolate,\nThe flowers are filled with colors, the spring breeze blows.",
+          "notes": "A classic ghazal about love and longing in spring"
+        },
+        {
+          "language": "persian",
+          "script": "persian",
+          "title": "گل‌ها پر از رنگند",
+          "firstLine": "گل‌ها پر از رنگند، باد بهاری می‌وزد",
+          "text": "گل‌ها پر از رنگند، باد بهاری می‌وزد\nبیا که گلزار در انتظار است\nاگر در قفس خوشم، بلبل چه ناله دارد\nگل‌ها پر از رنگند، باد بهاری می‌وزد\n\nآن روزها که پیوسته با من بودی\nآن شب‌ها که با کرم شبتاب روشن بود\nحالا که نیستی، جهان خالی است\nگل‌ها پر از رنگند، باد بهاری می‌وزد",
+          "notes": "غزلی کلاسیک درباره عشق و اشتیاق در بهار"
+        },
+        {
+          "language": "french",
+          "script": "latin",
+          "title": "Les fleurs sont remplies de couleurs",
+          "firstLine": "Les fleurs sont remplies de couleurs, la brise printanière souffle",
+          "text": "Les fleurs sont remplies de couleurs, la brise printanière souffle,\nViens maintenant, car le jardin attend dans l'anticipation.\nSi je suis heureux dans ma cage, pourquoi le rossignol se lamenterait-il ?\nLes fleurs sont remplies de couleurs, la brise printanière souffle.\n\nCes jours où tu étais avec moi continuellement,\nCes nuits illuminées par les lucioles,\nMaintenant que tu es parti, le monde est désolé,\nLes fleurs sont remplies de couleurs, la brise printanière souffle.",
+          "notes": "Un ghazal classique sur l'amour et le désir au printemps"
+        }
+      ],
+      "themes": ["Love", "Spring", "Longing"],
+      "likes": 2123,
+      "reads": 6543
+    }
+  ]
+}
