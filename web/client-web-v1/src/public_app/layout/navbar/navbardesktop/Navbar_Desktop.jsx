@@ -1,6 +1,5 @@
-// src/public_app/layout/navbar/navbardesktop/Navbar_Desktop.jsx
 import { Link, NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Add useEffect
 import {
   FaFeather,
   FaSearch,
@@ -12,17 +11,37 @@ import {
   FaBell,
 } from "react-icons/fa";
 import { useTheme } from "../../../../theme";
+import { useNavbarTranslation } from "../../../../hooks/useNavbarTranslation";
 import SearchBar from "../components/SearchBar";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import ThemeSwitcher from "../components/ThemeSwitcher";
-import Notification from "../components/Notification"; // Updated path
-import { navItems } from "../NavbarData";
-
-// Rest of the component remains the same...
+import Notification from "../components/Notification";
 
 const NavbarDesktop = () => {
+  console.log("🟢 NavbarDesktop rendering start");
+
   const [openDropdown, setOpenDropdown] = useState(null);
   const { theme, themeName } = useTheme();
+  console.log("🟢 Theme loaded:", { themeName, themeExists: !!theme });
+
+  let navTranslation;
+  try {
+    navTranslation = useNavbarTranslation();
+    console.log("🟢 Translation hook loaded:", {
+      hasNavItems: !!navTranslation?.navItems,
+      navItemsLength: navTranslation?.navItems?.length,
+      hasT: !!navTranslation?.t,
+    });
+  } catch (error) {
+    console.error("🔴 Error in useNavbarTranslation:", error);
+  }
+
+  const { navItems, t } = navTranslation || { navItems: [], t: (text) => text };
+
+  // Add useEffect to check if component mounts
+  useEffect(() => {
+    console.log("🟢 NavbarDesktop mounted");
+  }, []);
 
   const handleDropdownEnter = (index) => setOpenDropdown(index);
   const handleDropdownLeave = () => setOpenDropdown(null);
@@ -125,12 +144,14 @@ const NavbarDesktop = () => {
     },
   ];
 
+  console.log("🟢 About to render JSX");
+
   return (
     <nav
-      className={`sticky top-0 z-50 transition-colors duration-200 ${theme.background.primary}`}
+      className={`sticky top-0 z-50 transition-colors duration-200 ${theme?.background?.primary || ""}`}
     >
       {/* Main Navbar with Gradient */}
-      <div className={`${theme.background.gradient} shadow-lg`}>
+      <div className={`${theme?.background?.gradient || ""} shadow-lg`}>
         {/* Decorative top border - theme aware */}
         <div className={`h-1 bg-gradient-to-r ${gradientBorder}`}></div>
 
@@ -141,11 +162,11 @@ const NavbarDesktop = () => {
             <Link to="/" className="flex items-center gap-2 group">
               <div className="relative">
                 <FaFeather
-                  className={`text-2xl ${theme.icon.primary} group-hover:scale-110 transition-transform`}
+                  className={`text-2xl ${theme?.icon?.primary || "text-amber-500"} group-hover:scale-110 transition-transform`}
                 />
               </div>
               <span
-                className={`font-bold text-xl bg-gradient-to-r from-amber-700 to-amber-500 bg-clip-text text-transparent ${theme.text.primary}`}
+                className={`font-bold text-xl bg-gradient-to-r from-amber-700 to-amber-500 bg-clip-text text-transparent ${theme?.text?.primary || ""}`}
               >
                 Prasang
               </span>
@@ -159,7 +180,7 @@ const NavbarDesktop = () => {
               {/* AI Assistant Icon */}
               <Link
                 to="/ai-assistant"
-                className={`p-2 ${theme.text.accent} ${hoverBgClass} rounded-full transition-all relative group`}
+                className={`p-2 ${theme?.text?.accent || "text-amber-600"} ${hoverBgClass} rounded-full transition-all relative group`}
                 aria-label="AI Assistant"
               >
                 <FaRobot size={18} />
@@ -186,7 +207,7 @@ const NavbarDesktop = () => {
               {/* Settings Icon - Links to Settings Page */}
               <Link
                 to="/settings"
-                className={`p-2 ${theme.text.accent} ${hoverBgClass} rounded-full transition-all relative group`}
+                className={`p-2 ${theme?.text?.accent || "text-amber-600"} ${hoverBgClass} rounded-full transition-all relative group`}
                 aria-label="Settings"
               >
                 <FaCog size={18} />
@@ -198,7 +219,7 @@ const NavbarDesktop = () => {
               {/* Sign Up Button */}
               <Link
                 to="/signup"
-                className={`${theme.button.primary} px-5 py-2 rounded-full shadow-md hover:shadow-lg ml-1`}
+                className={`${theme?.button?.primary || "bg-gradient-to-r from-amber-500 to-yellow-500 text-white"} px-5 py-2 rounded-full shadow-md hover:shadow-lg ml-1`}
               >
                 Sign Up
               </Link>
@@ -208,100 +229,106 @@ const NavbarDesktop = () => {
 
         {/* Second Row: Main Navigation Menu */}
         <div
-          className={`border-t ${theme.border.accent} ${theme.background.overlay}`}
+          className={`border-t ${theme?.border?.accent || "border-amber-200"} ${theme?.background?.overlay || ""}`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <ul className="flex items-center justify-center space-x-1">
-              {navItems.map((item, index) => (
-                <li
-                  key={item.to}
-                  className="relative flex items-stretch"
-                  onMouseEnter={() => handleDropdownEnter(index)}
-                  onMouseLeave={handleDropdownLeave}
-                >
-                  {item.dropdown ? (
-                    <>
-                      {/* Main navigation link - theme aware */}
+              {navItems && navItems.length > 0 ? (
+                navItems.map((item, index) => (
+                  <li
+                    key={item.to}
+                    className="relative flex items-stretch"
+                    onMouseEnter={() => handleDropdownEnter(index)}
+                    onMouseLeave={handleDropdownLeave}
+                  >
+                    {item.dropdown ? (
+                      <>
+                        {/* Main navigation link - theme aware */}
+                        <NavLink
+                          to={item.to}
+                          className={({ isActive }) =>
+                            `flex items-center gap-2 px-4 py-3 rounded-l-lg transition-all duration-200
+                            ${
+                              isActive
+                                ? `${accentBgClass} ${theme?.text?.accent || "text-amber-600"} font-medium`
+                                : `${theme?.text?.secondary || "text-gray-600"} ${hoverBgClass}`
+                            }`
+                          }
+                        >
+                          <item.icon size={16} />
+                          <span className="font-medium">{item.label}</span>
+                        </NavLink>
+
+                        {/* Dropdown toggle button - theme aware */}
+                        <button
+                          onClick={() =>
+                            setOpenDropdown(
+                              openDropdown === index ? null : index,
+                            )
+                          }
+                          className={`px-2 py-3 rounded-r-lg transition-all duration-200
+                            ${
+                              openDropdown === index
+                                ? `${accentBgClass} ${theme?.text?.accent || "text-amber-600"}`
+                                : `${theme?.text?.secondary || "text-gray-600"} ${hoverBgClass}`
+                            }`}
+                          aria-label="Toggle dropdown"
+                        >
+                          <FaChevronDown
+                            size={12}
+                            className={`transition-transform duration-200 ${
+                              openDropdown === index ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+
+                        {/* Dropdown Menu - theme aware */}
+                        {openDropdown === index && (
+                          <div
+                            className={`absolute left-0 top-full mt-0 w-56 ${theme?.background?.card || "bg-white"} rounded-b-2xl shadow-xl border ${theme?.border?.accent || "border-amber-200"} py-2 z-50`}
+                          >
+                            {item.dropdown.map((subItem) => (
+                              <NavLink
+                                key={subItem.to}
+                                to={subItem.to}
+                                className={({ isActive }) =>
+                                  `flex items-center gap-3 px-4 py-2 text-sm transition-colors
+                                  ${
+                                    isActive
+                                      ? `${accentBgClass} ${theme?.text?.accent || "text-amber-600"} font-medium`
+                                      : `${theme?.text?.secondary || "text-gray-600"} ${hoverBgClass}`
+                                  }`
+                                }
+                                onClick={() => setOpenDropdown(null)}
+                              >
+                                {subItem.icon && <subItem.icon size={14} />}
+                                <span>{subItem.label}</span>
+                              </NavLink>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    ) : (
                       <NavLink
                         to={item.to}
                         className={({ isActive }) =>
-                          `flex items-center gap-2 px-4 py-3 rounded-l-lg transition-all duration-200
+                          `flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200
                           ${
                             isActive
-                              ? `${accentBgClass} ${theme.text.accent} font-medium`
-                              : `${theme.text.secondary} ${hoverBgClass}`
+                              ? `${accentBgClass} ${theme?.text?.accent || "text-amber-600"} font-medium`
+                              : `${theme?.text?.secondary || "text-gray-600"} ${hoverBgClass}`
                           }`
                         }
                       >
                         <item.icon size={16} />
                         <span className="font-medium">{item.label}</span>
                       </NavLink>
-
-                      {/* Dropdown toggle button - theme aware */}
-                      <button
-                        onClick={() =>
-                          setOpenDropdown(openDropdown === index ? null : index)
-                        }
-                        className={`px-2 py-3 rounded-r-lg transition-all duration-200
-                          ${
-                            openDropdown === index
-                              ? `${accentBgClass} ${theme.text.accent}`
-                              : `${theme.text.secondary} ${hoverBgClass}`
-                          }`}
-                        aria-label="Toggle dropdown"
-                      >
-                        <FaChevronDown
-                          size={12}
-                          className={`transition-transform duration-200 ${
-                            openDropdown === index ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-
-                      {/* Dropdown Menu - theme aware */}
-                      {openDropdown === index && (
-                        <div
-                          className={`absolute left-0 top-full mt-0 w-56 ${theme.background.card} rounded-b-2xl shadow-xl border ${theme.border.accent} py-2 z-50`}
-                        >
-                          {item.dropdown.map((subItem) => (
-                            <NavLink
-                              key={subItem.to}
-                              to={subItem.to}
-                              className={({ isActive }) =>
-                                `flex items-center gap-3 px-4 py-2 text-sm transition-colors
-                                ${
-                                  isActive
-                                    ? `${accentBgClass} ${theme.text.accent} font-medium`
-                                    : `${theme.text.secondary} ${hoverBgClass}`
-                                }`
-                              }
-                              onClick={() => setOpenDropdown(null)}
-                            >
-                              {subItem.icon && <subItem.icon size={14} />}
-                              <span>{subItem.label}</span>
-                            </NavLink>
-                          ))}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <NavLink
-                      to={item.to}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200
-                        ${
-                          isActive
-                            ? `${accentBgClass} ${theme.text.accent} font-medium`
-                            : `${theme.text.secondary} ${hoverBgClass}`
-                        }`
-                      }
-                    >
-                      <item.icon size={16} />
-                      <span className="font-medium">{item.label}</span>
-                    </NavLink>
-                  )}
-                </li>
-              ))}
+                    )}
+                  </li>
+                ))
+              ) : (
+                <li className="text-red-500 p-4">No navigation items loaded</li>
+              )}
             </ul>
           </div>
         </div>

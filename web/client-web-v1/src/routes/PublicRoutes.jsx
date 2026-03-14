@@ -40,6 +40,12 @@ import DanteAlighieri from "../public_app/features/poemstypes/components/sonnets
 import SonnetDetailPage from "../public_app/features/poemstypes/components/sonnets/poets/SonnetDetailPage";
 import Faiz from "../public_app/features/poemstypes/components/gazal/poets/Faiz";
 
+// Add these imports at the top with your other imports
+import Notifications from "../public_app/features/notifications/Notifications";
+import NotificationDetails from "../public_app/features/notifications/NotificationDetails";
+
+// Then add these routes inside your Routes component, before the 404 route
+
 const PublicRoutes = () => {
   console.log("PublicRoutes rendering");
 
@@ -47,6 +53,9 @@ const PublicRoutes = () => {
     <Routes>
       <Route path="/" element={<PublicLayout />}>
         <Route index element={<HomePage />} />
+
+        <Route path="notifications" element={<Notifications />} />
+        <Route path="notifications/:id" element={<NotificationDetails />} />
 
         {/* Poems routes */}
         <Route path="poems" element={<PoemsList />} />

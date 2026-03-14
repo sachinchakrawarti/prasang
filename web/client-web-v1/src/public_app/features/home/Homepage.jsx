@@ -1,3 +1,4 @@
+// src/public_app/features/home/Homepage.jsx
 import React from "react";
 import HeroSection from "./components/HeroSection";
 import ExploreMonostich from "./components/ExploreMonostich";

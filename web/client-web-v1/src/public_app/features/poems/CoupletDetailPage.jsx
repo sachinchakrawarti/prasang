@@ -20,6 +20,7 @@ import {
   FaComment,
   FaEye,
 } from "react-icons/fa";
+import { useTheme } from "../../../theme";
 import { coupletsData, getCoupletById } from "./CoupletData";
 
 const CoupletDetailPage = () => {
@@ -31,6 +32,7 @@ const CoupletDetailPage = () => {
   const [saved, setSaved] = useState(false);
   const [copied, setCopied] = useState(false);
   const [relatedCouplets, setRelatedCouplets] = useState([]);
+  const { theme, themeName } = useTheme();
 
   useEffect(() => {
     const foundCouplet = getCoupletById(id);
@@ -50,17 +52,119 @@ const CoupletDetailPage = () => {
     }
   }, [id]);
 
+  // Theme-based helper functions
+  const getHeaderGradient = () => {
+    switch (themeName) {
+      case "forest":
+        return "from-green-500 to-emerald-500";
+      case "lavender":
+        return "from-purple-500 to-pink-500";
+      case "rose":
+        return "from-rose-500 to-pink-500";
+      case "sepia":
+        return "from-amber-600 to-yellow-600";
+      case "dark":
+        return "from-gray-700 to-gray-800";
+      default:
+        return "from-amber-500 to-yellow-500";
+    }
+  };
+
+  const getAvatarGradient = () => {
+    switch (themeName) {
+      case "forest":
+        return "from-green-400 to-emerald-400";
+      case "lavender":
+        return "from-purple-400 to-pink-400";
+      case "rose":
+        return "from-rose-400 to-pink-400";
+      case "sepia":
+        return "from-amber-500 to-yellow-500";
+      case "dark":
+        return "from-gray-600 to-gray-700";
+      default:
+        return "from-amber-400 to-yellow-400";
+    }
+  };
+
+  const getRomanizationButtonClass = () => {
+    if (showRomanization) {
+      switch (themeName) {
+        case "forest":
+          return "bg-green-500 text-white";
+        case "lavender":
+          return "bg-purple-500 text-white";
+        case "rose":
+          return "bg-rose-500 text-white";
+        case "sepia":
+          return "bg-amber-600 text-white";
+        case "dark":
+          return "bg-gray-600 text-white";
+        default:
+          return "bg-amber-500 text-white";
+      }
+    }
+    switch (themeName) {
+      case "forest":
+        return "bg-green-100 text-green-700 hover:bg-green-200";
+      case "lavender":
+        return "bg-purple-100 text-purple-700 hover:bg-purple-200";
+      case "rose":
+        return "bg-rose-100 text-rose-700 hover:bg-rose-200";
+      case "sepia":
+        return "bg-amber-100 text-amber-700 hover:bg-amber-200";
+      case "dark":
+        return "bg-gray-700 text-gray-300 hover:bg-gray-600";
+      default:
+        return "bg-amber-100 text-amber-700 hover:bg-amber-200";
+    }
+  };
+
+  const getThemeBadgeClass = () => {
+    switch (themeName) {
+      case "forest":
+        return "bg-green-50 text-green-700";
+      case "lavender":
+        return "bg-purple-50 text-purple-700";
+      case "rose":
+        return "bg-rose-50 text-rose-700";
+      case "sepia":
+        return "bg-amber-100 text-amber-700";
+      case "dark":
+        return "bg-gray-700 text-gray-300";
+      default:
+        return "bg-amber-50 text-amber-700";
+    }
+  };
+
+  const getRelatedCardHoverClass = () => {
+    switch (themeName) {
+      case "forest":
+        return "group-hover:text-green-600";
+      case "lavender":
+        return "group-hover:text-purple-600";
+      case "rose":
+        return "group-hover:text-rose-600";
+      case "sepia":
+        return "group-hover:text-amber-700";
+      case "dark":
+        return "group-hover:text-gray-300";
+      default:
+        return "group-hover:text-amber-600";
+    }
+  };
+
   if (!couplet) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          <h2 className={`text-2xl font-bold ${theme.text.primary} mb-2`}>
             Couplet Not Found
           </h2>
-          <p className="text-gray-600 mb-4">
+          <p className={`${theme.text.secondary} mb-4`}>
             The couplet you're looking for doesn't exist.
           </p>
-          <Link to="/couplets" className="text-amber-600 hover:text-amber-700">
+          <Link to="/couplets" className={theme.link.primary}>
             ← Back to Couplets
           </Link>
         </div>
@@ -88,21 +192,31 @@ const CoupletDetailPage = () => {
     couplet.language === "arabic" ||
     couplet.language === "persian";
 
+  const headerGradient = getHeaderGradient();
+  const avatarGradient = getAvatarGradient();
+  const romanizationButtonClass = getRomanizationButtonClass();
+  const themeBadgeClass = getThemeBadgeClass();
+  const relatedCardHoverClass = getRelatedCardHoverClass();
+
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div
+      className={`max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ${theme.background.primary}`}
+    >
       {/* Back Button */}
       <Link
         to="/couplets"
-        className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 mb-6 group"
+        className={`inline-flex items-center gap-2 ${theme.link.primary} mb-6 group`}
       >
         <FaArrowLeft className="group-hover:-translate-x-1 transition" />
         Back to Couplets
       </Link>
 
       {/* Main Card */}
-      <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-amber-100">
+      <div
+        className={`${theme.background.card} rounded-3xl shadow-2xl overflow-hidden border ${theme.border.card}`}
+      >
         {/* Header */}
-        <div className="bg-gradient-to-r from-amber-500 to-yellow-500 p-6 text-white">
+        <div className={`bg-gradient-to-r ${headerGradient} p-6 text-white`}>
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
               <FaQuoteLeft className="text-white/80 text-2xl" />
@@ -148,25 +262,34 @@ const CoupletDetailPage = () => {
         </div>
 
         {/* Poet Info */}
-        <div className="px-6 py-4 bg-amber-50/50 border-b border-amber-100">
+        <div
+          className={`px-6 py-4 ${theme.background.secondary} border-b ${theme.border.light}`}
+        >
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-gradient-to-br from-amber-400 to-yellow-400 rounded-full flex items-center justify-center text-white text-xl font-bold">
+            <div
+              className={`w-14 h-14 bg-gradient-to-br ${avatarGradient} rounded-full flex items-center justify-center text-white text-xl font-bold`}
+            >
               {couplet.poet.name.charAt(0)}
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">
+              <h1 className={`text-2xl font-bold ${theme.text.primary}`}>
                 {couplet.poet.name}
               </h1>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mt-1">
+              <div
+                className={`flex flex-wrap items-center gap-4 text-sm ${theme.text.secondary} mt-1`}
+              >
                 <span className="flex items-center gap-1">
-                  <FaGlobe size={12} /> {couplet.poet.region}
+                  <FaGlobe size={12} className={theme.icon.primary} />{" "}
+                  {couplet.poet.region}
                 </span>
                 <span className="flex items-center gap-1">
-                  <FaCalendarAlt size={12} /> {couplet.poet.era}
+                  <FaCalendarAlt size={12} className={theme.icon.primary} />{" "}
+                  {couplet.poet.era}
                 </span>
                 {couplet.year && (
                   <span className="flex items-center gap-1">
-                    <FaQuoteRight size={12} /> {couplet.year}
+                    <FaQuoteRight size={12} className={theme.icon.primary} />{" "}
+                    {couplet.year}
                   </span>
                 )}
               </div>
@@ -178,17 +301,15 @@ const CoupletDetailPage = () => {
         <div className="p-8">
           <div className={`mb-6 ${isRTL ? "text-right" : "text-left"}`}>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
-                <FaLanguage className="text-amber-500" />
+              <h2
+                className={`text-lg font-semibold ${theme.text.primary} flex items-center gap-2`}
+              >
+                <FaLanguage className={theme.icon.primary} />
                 Original {couplet.language}
               </h2>
               <button
                 onClick={() => setShowRomanization(!showRomanization)}
-                className={`text-sm px-4 py-2 rounded-full transition ${
-                  showRomanization
-                    ? "bg-amber-500 text-white"
-                    : "bg-amber-100 text-amber-700 hover:bg-amber-200"
-                }`}
+                className={`text-sm px-4 py-2 rounded-full transition ${romanizationButtonClass}`}
               >
                 {showRomanization ? "Hide" : "Show"} Romanization
               </button>
@@ -197,7 +318,10 @@ const CoupletDetailPage = () => {
             {/* Original text */}
             <div className="space-y-3 font-serif">
               {couplet.original.text.split("\n").map((line, idx) => (
-                <p key={idx} className="text-2xl text-gray-800 leading-relaxed">
+                <p
+                  key={idx}
+                  className={`text-2xl ${theme.text.primary} leading-relaxed`}
+                >
                   {line}
                 </p>
               ))}
@@ -205,10 +329,12 @@ const CoupletDetailPage = () => {
 
             {/* Romanization */}
             {showRomanization && couplet.original.romanization && (
-              <div className="mt-6 pt-6 border-t border-amber-100">
-                <p className="text-sm text-gray-500 mb-3">Romanization:</p>
+              <div className={`mt-6 pt-6 border-t ${theme.border.light}`}>
+                <p className={`text-sm ${theme.text.tertiary} mb-3`}>
+                  Romanization:
+                </p>
                 {couplet.original.romanization.split("\n").map((line, idx) => (
-                  <p key={idx} className="text-gray-600">
+                  <p key={idx} className={theme.text.secondary}>
                     {line}
                   </p>
                 ))}
@@ -217,18 +343,20 @@ const CoupletDetailPage = () => {
           </div>
 
           {/* AI Translations */}
-          <div className="mt-8 border-t border-amber-100 pt-6">
+          <div className={`mt-8 border-t ${theme.border.light} pt-6`}>
             <button
               onClick={() => setShowTranslations(!showTranslations)}
-              className="flex items-center gap-2 text-amber-600 hover:text-amber-700 transition mb-4"
+              className={`flex items-center gap-2 ${theme.text.accent} hover:${theme.text.accentHover} transition mb-4`}
             >
               <FaRobot
                 className={
-                  showTranslations ? "text-amber-600" : "text-gray-400"
+                  showTranslations ? theme.icon.primary : "text-gray-400"
                 }
                 size={18}
               />
-              <span className="font-medium text-lg">AI Translations</span>
+              <span className={`font-medium text-lg ${theme.text.primary}`}>
+                AI Translations
+              </span>
               {showTranslations ? <FaChevronUp /> : <FaChevronDown />}
             </button>
 
@@ -242,8 +370,8 @@ const CoupletDetailPage = () => {
                       onClick={() => setSelectedTranslation(lang.code)}
                       className={`px-4 py-2 rounded-lg text-sm transition ${
                         selectedTranslation === lang.code
-                          ? "bg-amber-500 text-white"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                          ? `${theme.button.primary}`
+                          : `${theme.button.ghost}`
                       }`}
                     >
                       {lang.name}
@@ -252,10 +380,10 @@ const CoupletDetailPage = () => {
                 </div>
 
                 {/* Selected Translation */}
-                <div className="bg-gradient-to-r from-purple-50 to-amber-50 rounded-xl p-6">
+                <div className="bg-gradient-to-r from-purple-50 to-amber-50 dark:from-purple-900/20 dark:to-amber-900/20 rounded-xl p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <FaRobot className="text-purple-500" />
-                    <span className="font-medium text-gray-700">
+                    <span className={`font-medium ${theme.text.primary}`}>
                       Translation in{" "}
                       {
                         translationLanguages.find(
@@ -268,7 +396,7 @@ const CoupletDetailPage = () => {
                     {couplet.aiTranslations[selectedTranslation]
                       ?.split("\n")
                       .map((line, idx) => (
-                        <p key={idx} className="text-gray-700">
+                        <p key={idx} className={theme.text.secondary}>
                           {line}
                         </p>
                       ))}
@@ -280,16 +408,18 @@ const CoupletDetailPage = () => {
 
           {/* Themes */}
           {couplet.themes && couplet.themes.length > 0 && (
-            <div className="mt-6 pt-4 border-t border-amber-100">
+            <div className={`mt-6 pt-4 border-t ${theme.border.light}`}>
               <div className="flex items-center gap-2 mb-3">
-                <FaTags className="text-amber-500" />
-                <span className="font-medium text-gray-700">Themes</span>
+                <FaTags className={theme.icon.primary} />
+                <span className={`font-medium ${theme.text.primary}`}>
+                  Themes
+                </span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {couplet.themes.map((theme, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1.5 bg-amber-50 text-amber-700 rounded-lg text-sm"
+                    className={`px-3 py-1.5 ${themeBadgeClass} rounded-lg text-sm`}
                   >
                     {theme}
                   </span>
@@ -300,14 +430,14 @@ const CoupletDetailPage = () => {
 
           {/* Poet Bio */}
           {couplet.poet.bio && (
-            <div className="mt-6 pt-4 border-t border-amber-100">
+            <div className={`mt-6 pt-4 border-t ${theme.border.light}`}>
               <div className="flex items-center gap-2 mb-3">
-                <FaUser className="text-amber-500" />
-                <span className="font-medium text-gray-700">
+                <FaUser className={theme.icon.primary} />
+                <span className={`font-medium ${theme.text.primary}`}>
                   About the Poet
                 </span>
               </div>
-              <p className="text-gray-600 leading-relaxed">
+              <p className={`${theme.text.secondary} leading-relaxed`}>
                 {couplet.poet.bio}
               </p>
             </div>
@@ -318,7 +448,7 @@ const CoupletDetailPage = () => {
       {/* Related Couplets */}
       {relatedCouplets.length > 0 && (
         <div className="mt-12">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          <h2 className={`text-2xl font-bold ${theme.text.primary} mb-6`}>
             More Couplets You Might Like
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -326,20 +456,28 @@ const CoupletDetailPage = () => {
               <Link
                 key={related.id}
                 to={`/couplet/${related.id}`}
-                className="group bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition hover:-translate-y-1 border border-amber-100"
+                className={`group ${theme.background.card} rounded-xl shadow-md p-4 hover:shadow-lg transition hover:-translate-y-1 border ${theme.border.card}`}
               >
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 bg-gradient-to-br from-amber-400 to-yellow-400 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                  <div
+                    className={`w-8 h-8 bg-gradient-to-br ${avatarGradient} rounded-full flex items-center justify-center text-white text-xs font-bold`}
+                  >
                     {related.poet.name.charAt(0)}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800 group-hover:text-amber-600 transition">
+                    <h3
+                      className={`font-semibold ${theme.text.primary} ${relatedCardHoverClass} transition`}
+                    >
                       {related.poet.name}
                     </h3>
-                    <p className="text-xs text-gray-500">{related.language}</p>
+                    <p className={`text-xs ${theme.text.tertiary}`}>
+                      {related.language}
+                    </p>
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 italic line-clamp-2">
+                <p
+                  className={`text-sm ${theme.text.secondary} italic line-clamp-2`}
+                >
                   "{related.original.text.split("\n")[0]}"
                 </p>
               </Link>

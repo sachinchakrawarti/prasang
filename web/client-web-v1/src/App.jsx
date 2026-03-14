@@ -1,17 +1,22 @@
-// src/App.jsx
-import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "./theme";
+import { LanguageProvider } from "./context/LanguageContext";
 import AppRoutes from "./routes/AppRoutes";
 import ScrollToTop from "./utils/ScrollToTop";
 import GoUpGoDown from "./utils/GoUpGoDown";
 
-const App = () => {
+function App() {
   return (
-    <>
-      <ScrollToTop />
-      <GoUpGoDown />
-      <AppRoutes />
-    </>
+    <BrowserRouter>
+      <ThemeProvider>
+        <LanguageProvider>
+          <ScrollToTop />
+          <GoUpGoDown />
+          <AppRoutes />
+        </LanguageProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;

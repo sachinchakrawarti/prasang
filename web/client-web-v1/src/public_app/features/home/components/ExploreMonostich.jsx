@@ -13,6 +13,9 @@ import {
   FaLanguage,
   FaRobot,
 } from "react-icons/fa";
+import { useTheme } from "../../../../theme";
+import { useLanguage } from "../../../../context/LanguageContext";
+import { translateExplore } from "../../../../locales/exploreMonostichTranslations";
 
 // Monostich data for the slider
 const monostichData = [
@@ -24,7 +27,6 @@ const monostichData = [
     language: "English",
     translation: "बड़े दर्द के बाद, एक औपचारिक सी भावना आती है",
     color: "from-blue-500 to-indigo-500",
-    flag: "🇺🇸",
   },
   {
     id: "hindi-1",
@@ -35,7 +37,6 @@ const monostichData = [
     romanization: "Koi diya jale to roshni bhi hogi",
     translation: "If a lamp is lit, there will be light too.",
     color: "from-red-500 to-rose-500",
-    flag: "🇮🇳",
   },
   {
     id: "urdu-1",
@@ -46,7 +47,6 @@ const monostichData = [
     romanization: "Ab ke hum bichhde to shayad kabhi khwabon mein milein",
     translation: "If we part now, perhaps we'll meet in dreams someday",
     color: "from-cyan-500 to-teal-500",
-    flag: "🇵🇰",
   },
   {
     id: "arabic-1",
@@ -57,7 +57,6 @@ const monostichData = [
     romanization: "Wa ma nail al-matalib bil-tamanni",
     translation: "Goals are not achieved by mere wishes",
     color: "from-emerald-500 to-green-500",
-    flag: "🇮🇶",
   },
   {
     id: "persian-1",
@@ -68,7 +67,6 @@ const monostichData = [
     romanization: "Omrist ta be gush-e delam mi-rasad in raz",
     translation: "For an age, this secret reaches my heart's ear",
     color: "from-pink-500 to-rose-500",
-    flag: "🇮🇷",
   },
   {
     id: "french-1",
@@ -78,7 +76,6 @@ const monostichData = [
     language: "French",
     translation: "Time erases nothing, it only adds silence.",
     color: "from-sky-500 to-blue-500",
-    flag: "🇫🇷",
   },
   {
     id: "english-2",
@@ -88,7 +85,6 @@ const monostichData = [
     language: "English",
     translation: "मैं अपनी किस्मत का मालिक हूं, मैं अपनी आत्मा का कप्तान हूं",
     color: "from-green-500 to-emerald-500",
-    flag: "🇬🇧",
   },
   {
     id: "urdu-2",
@@ -99,7 +95,6 @@ const monostichData = [
     romanization: "Hum se pehli si mohabbat mere mehboob na maang",
     translation: "Do not ask me for that same love again, my beloved",
     color: "from-indigo-500 to-purple-500",
-    flag: "🇵🇰",
   },
   {
     id: "persian-2",
@@ -111,7 +106,6 @@ const monostichData = [
     translation:
       "How long will we be captive to the color and scent of the world's snare?",
     color: "from-violet-500 to-purple-500",
-    flag: "🇮🇷",
   },
 ];
 
@@ -121,11 +115,69 @@ const ExploreMonostich = () => {
   const [showTranslation, setShowTranslation] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
+  const { theme, themeName } = useTheme();
+  const { language } = useLanguage();
+
+  // Translation helper
+  const t = (text) => translateExplore(text, language);
+
   const currentMonostich = monostichData[currentIndex];
   const isRTL =
     currentMonostich.language === "Urdu" ||
     currentMonostich.language === "Arabic" ||
     currentMonostich.language === "Persian";
+
+  // Theme-based helper functions
+  const getHeaderGradient = () => {
+    switch (themeName) {
+      case "forest":
+        return "from-green-600 to-emerald-600";
+      case "lavender":
+        return "from-purple-600 to-pink-600";
+      case "rose":
+        return "from-rose-600 to-pink-600";
+      case "sepia":
+        return "from-amber-600 to-yellow-600";
+      case "dark":
+        return "from-gray-700 to-gray-800";
+      default:
+        return "from-amber-600 to-yellow-600";
+    }
+  };
+
+  const getDotColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "bg-green-500";
+      case "lavender":
+        return "bg-purple-500";
+      case "rose":
+        return "bg-rose-500";
+      case "sepia":
+        return "bg-amber-500";
+      case "dark":
+        return "bg-gray-400";
+      default:
+        return "bg-amber-500";
+    }
+  };
+
+  const getButtonHoverColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "hover:text-green-700";
+      case "lavender":
+        return "hover:text-purple-700";
+      case "rose":
+        return "hover:text-rose-700";
+      case "sepia":
+        return "hover:text-amber-700";
+      case "dark":
+        return "hover:text-gray-300";
+      default:
+        return "hover:text-amber-700";
+    }
+  };
 
   // Auto-play functionality
   useEffect(() => {
@@ -155,24 +207,32 @@ const ExploreMonostich = () => {
     setCurrentIndex(index);
   };
 
+  const headerGradient = getHeaderGradient();
+  const dotColor = getDotColor();
+  const buttonHoverColor = getButtonHoverColor();
+
   return (
-    <div className="bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-50 py-16">
+    <div className={`${theme.background.gradient} py-16`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
           <div className="flex justify-center mb-4">
             <div className="relative">
-              <FaFeather className="text-5xl text-amber-500 animate-float" />
+              <FaFeather
+                className={`text-5xl ${theme.icon.primary} animate-float`}
+              />
               <FaStar className="text-yellow-400 absolute -top-2 -right-2 text-lg animate-pulse" />
             </div>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
-              Monostich: Poetry in a Single Line
+            <span
+              className={`bg-gradient-to-r ${headerGradient} bg-clip-text text-transparent`}
+            >
+              {t("title")}
             </span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Discover the power of words captured in a single breath
+          <p className={`${theme.text.secondary} max-w-2xl mx-auto`}>
+            {t("subtitle")}
           </p>
         </div>
 
@@ -181,15 +241,15 @@ const ExploreMonostich = () => {
           {/* Navigation Buttons */}
           <button
             onClick={handlePrevious}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-12 z-10 p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition text-amber-600 hover:text-amber-700"
-            aria-label="Previous monostich"
+            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-12 z-10 p-3 ${theme.background.card} rounded-full shadow-lg hover:shadow-xl transition ${theme.text.accent} ${buttonHoverColor}`}
+            aria-label={t("previous")}
           >
             <FaArrowLeft size={20} />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-12 z-10 p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition text-amber-600 hover:text-amber-700"
-            aria-label="Next monostich"
+            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-12 z-10 p-3 ${theme.background.card} rounded-full shadow-lg hover:shadow-xl transition ${theme.text.accent} ${buttonHoverColor}`}
+            aria-label={t("next")}
           >
             <FaArrowRight size={20} />
           </button>
@@ -225,13 +285,6 @@ const ExploreMonostich = () => {
                     </div>
                   </div>
                 </div>
-                <span
-                  className="text-4xl"
-                  role="img"
-                  aria-label={currentMonostich.country}
-                >
-                  {currentMonostich.flag}
-                </span>
               </div>
 
               {/* Main Text */}
@@ -250,7 +303,9 @@ const ExploreMonostich = () => {
                   >
                     <FaLanguage size={16} />
                     <span className="text-sm font-medium">
-                      {showRomanization ? "Hide" : "Show"} Romanization
+                      {showRomanization
+                        ? t("hideRomanization")
+                        : t("showRomanization")}
                     </span>
                   </button>
                   {showRomanization && (
@@ -272,7 +327,9 @@ const ExploreMonostich = () => {
                   >
                     <FaRobot size={16} />
                     <span className="text-sm font-medium">
-                      {showTranslation ? "Hide" : "Show"} English Translation
+                      {showTranslation
+                        ? t("hideTranslation")
+                        : t("showTranslation")}
                     </span>
                   </button>
                   {showTranslation && (
@@ -289,10 +346,10 @@ const ExploreMonostich = () => {
               <div className="flex justify-center mt-8">
                 <Link
                   to="/monostich"
-                  className="inline-flex items-center gap-2 bg-white text-amber-600 px-6 py-3 rounded-full font-semibold hover:bg-amber-50 transition shadow-lg hover:shadow-xl"
+                  className={`inline-flex items-center gap-2 ${theme.background.card} ${theme.text.accent} px-6 py-3 rounded-full font-semibold ${theme.background.cardHover} transition shadow-lg hover:shadow-xl`}
                 >
                   <FaFeather />
-                  <span>Explore All Monostich</span>
+                  <span>{t("exploreAll")}</span>
                   <FaArrowRight size={14} />
                 </Link>
               </div>
@@ -307,10 +364,10 @@ const ExploreMonostich = () => {
                 onClick={() => handleDotClick(index)}
                 className={`h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? "w-8 bg-amber-500"
-                    : "w-2 bg-amber-300 hover:bg-amber-400"
+                    ? `w-8 ${dotColor}`
+                    : `w-2 ${dotColor} opacity-50 hover:opacity-75`
                 }`}
-                aria-label={`Go to monostich ${index + 1}`}
+                aria-label={`${t("goTo")} ${index + 1}`}
               />
             ))}
           </div>
@@ -319,44 +376,59 @@ const ExploreMonostich = () => {
           <div className="text-center mt-4">
             <button
               onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-              className="text-sm text-amber-600 hover:text-amber-700 transition"
+              className={`text-sm ${theme.text.accent} hover:${theme.text.accentHover} transition`}
             >
-              {isAutoPlaying ? "⏸️ Pause" : "▶️ Play"} Slideshow
+              {isAutoPlaying ? `⏸️ ${t("pause")}` : `▶️ ${t("play")}`}{" "}
+              {t("slideshow")}
             </button>
           </div>
         </div>
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-          <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition">
-            <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <div
+            className={`${theme.background.card} rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition border ${theme.border.card}`}
+          >
+            <div
+              className={`w-16 h-16 bg-gradient-to-br from-amber-400 to-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-4`}
+            >
               <FaGlobe className="text-white text-2xl" />
             </div>
-            <h3 className="text-lg font-bold text-gray-800 mb-2">
-              6+ Languages
+            <h3 className={`text-lg font-bold ${theme.text.primary} mb-2`}>
+              6+ {t("languages")}
             </h3>
-            <p className="text-gray-600 text-sm">
-              Monostich from English, Hindi, Urdu, Arabic, Persian, and French
+            <p className={`${theme.text.secondary} text-sm`}>
+              {t("languagesDesc")}
             </p>
           </div>
-          <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition">
-            <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <div
+            className={`${theme.background.card} rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition border ${theme.border.card}`}
+          >
+            <div
+              className={`w-16 h-16 bg-gradient-to-br from-amber-400 to-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-4`}
+            >
               <FaUser className="text-white text-2xl" />
             </div>
-            <h3 className="text-lg font-bold text-gray-800 mb-2">8+ Poets</h3>
-            <p className="text-gray-600 text-sm">
-              From classical masters to modern voices
+            <h3 className={`text-lg font-bold ${theme.text.primary} mb-2`}>
+              8+ {t("poets")}
+            </h3>
+            <p className={`${theme.text.secondary} text-sm`}>
+              {t("poetsDesc")}
             </p>
           </div>
-          <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition">
-            <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <div
+            className={`${theme.background.card} rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition border ${theme.border.card}`}
+          >
+            <div
+              className={`w-16 h-16 bg-gradient-to-br from-amber-400 to-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-4`}
+            >
               <FaRobot className="text-white text-2xl" />
             </div>
-            <h3 className="text-lg font-bold text-gray-800 mb-2">
-              Translations
+            <h3 className={`text-lg font-bold ${theme.text.primary} mb-2`}>
+              {t("translations")}
             </h3>
-            <p className="text-gray-600 text-sm">
-              Read monostich in multiple languages with AI translations
+            <p className={`${theme.text.secondary} text-sm`}>
+              {t("translationsDesc")}
             </p>
           </div>
         </div>
