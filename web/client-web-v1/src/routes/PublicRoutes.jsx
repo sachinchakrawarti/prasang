@@ -72,7 +72,7 @@ const PublicRoutes = () => {
 
         {/* Poets routes */}
         <Route path="poets" element={<PoetsList />} />
-        <Route path="poets/featured" element={<PoetsList />} />
+        <Route path="poets/:id" element={<PoetsDetails />} />
         <Route path="poets/new" element={<PoetsList />} />
         <Route path="poets/interviews" element={<PoetsList />} />
         <Route path="poet/:id" element={<PoetsDetails />} />

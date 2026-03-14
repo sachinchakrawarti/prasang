@@ -319,9 +319,9 @@ const PoetsCard = ({ poet }) => {
           </p>
         </div>
 
-        {/* Action Button */}
+        {/* Action Button - Updated to point to PoetsDetails page */}
         <Link
-          to={`/poet/${translatedPoet?.id || "#"}`}
+          to={`/poets/${translatedPoet?.id || "#"}`}
           className={`block w-full text-center bg-gradient-to-r ${buttonGradient} 
             text-white py-2 rounded-lg hover:opacity-90 transition-all shadow-md hover:shadow-lg font-medium`}
         >

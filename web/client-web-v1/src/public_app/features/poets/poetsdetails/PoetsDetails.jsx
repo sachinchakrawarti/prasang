@@ -1,86 +1,173 @@
 // src/public_app/features/poets/poetsdetails/PoetsDetails.jsx
-import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useTheme } from "../../../../theme";
+import { useLanguage } from "../../../../context/LanguageContext";
 import { poetsData } from "../../../data/poetsdata/poets_data_eng";
+import { getPoetData } from "../../../data/poetsdata/poets_data_eng";
+import { translatePoets } from "../../../../locales/poetsTranslations";
+
+// Import components
 import PoetHeader from "./components/PoetHeader";
-import InfoCard from "./components/InfoCard";
+import Biography from "./components/Biography";
+import FamousWorks from "./components/FamousWorks";
+import Quotes from "./components/Quotes";
+import WritingStyle from "./components/WritingStyle";
 import AchievementsCard from "./components/AchievementsCard";
-import TabNavigation from "./components/TabNavigation";
-import BiographyTab from "./components/BiographyTab";
-import WorksTab from "./components/WorksTab";
-import QuotesTab from "./components/QuotesTab";
-import LegacySection from "./components/LegacySection";
+import Legacy from "./components/Legacy";
 
 const PoetsDetails = () => {
   const { id } = useParams();
-  const [activeTab, setActiveTab] = useState("biography");
+  const { themeName } = useTheme();
+  const { language } = useLanguage();
+  const [poet, setPoet] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const poet = poetsData.find((p) => p.id === parseInt(id));
+  // Translation helper
+  const t = (text) => translatePoets(text, language);
 
-  if (!poet) {
+  useEffect(() => {
+    // Find poet by ID
+    const foundPoet = poetsData.find((p) => p.id === parseInt(id));
+
+    if (foundPoet) {
+      // Get translated poet data
+      const translatedPoet = getPoetData(foundPoet, language);
+      console.log("📝 PoetsDetails - translatedPoet:", translatedPoet);
+      setPoet(translatedPoet);
+    }
+
+    setLoading(false);
+  }, [id, language]);
+
+  // Theme-based background colors (matching your theme variants)
+  const getBgColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "bg-green-50 dark:bg-green-900/20";
+      case "lavender":
+        return "bg-purple-50 dark:bg-purple-900/20";
+      case "rose":
+        return "bg-rose-50 dark:bg-rose-900/20";
+      case "sepia":
+        return "bg-amber-50 dark:bg-amber-900/20";
+      case "dark":
+        return "bg-gray-900";
+      default:
+        return "bg-gray-50 dark:bg-gray-900";
+    }
+  };
+
+  const getTextPrimary = () => {
+    switch (themeName) {
+      case "forest":
+        return "text-green-900 dark:text-green-100";
+      case "lavender":
+        return "text-purple-900 dark:text-purple-100";
+      case "rose":
+        return "text-rose-900 dark:text-rose-100";
+      case "sepia":
+        return "text-amber-900 dark:text-amber-100";
+      case "dark":
+        return "text-white";
+      default:
+        return "text-gray-900 dark:text-white";
+    }
+  };
+
+  const getSpinnerColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "border-green-500 border-t-transparent";
+      case "lavender":
+        return "border-purple-500 border-t-transparent";
+      case "rose":
+        return "border-rose-500 border-t-transparent";
+      case "sepia":
+        return "border-amber-500 border-t-transparent";
+      case "dark":
+        return "border-gray-400 border-t-transparent";
+      default:
+        return "border-amber-500 border-t-transparent";
+    }
+  };
+
+  const getErrorTextColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "text-green-600 dark:text-green-400";
+      case "lavender":
+        return "text-purple-600 dark:text-purple-400";
+      case "rose":
+        return "text-rose-600 dark:text-rose-400";
+      case "sepia":
+        return "text-amber-600 dark:text-amber-400";
+      case "dark":
+        return "text-gray-400";
+      default:
+        return "text-gray-600 dark:text-gray-400";
+    }
+  };
+
+  const bgColor = getBgColor();
+  const textPrimary = getTextPrimary();
+  const spinnerColor = getSpinnerColor();
+  const errorTextColor = getErrorTextColor();
+
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div
+        className={`min-h-screen ${bgColor} flex items-center justify-center`}
+      >
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            Poet Not Found
-          </h2>
-          <p className="text-gray-600 mb-4">
-            The poet you're looking for doesn't exist.
-          </p>
-          <Link to="/poets" className="text-amber-600 hover:text-amber-700">
-            ← Back to Poets
-          </Link>
+          <div
+            className={`w-16 h-16 border-4 ${spinnerColor} rounded-full animate-spin mx-auto mb-4`}
+          ></div>
+          <p className={textPrimary}>{t("loading") || "Loading..."}</p>
         </div>
       </div>
     );
   }
 
-  const tabs = ["biography", "works", "quotes"];
+  if (!poet) {
+    return (
+      <div
+        className={`min-h-screen ${bgColor} flex items-center justify-center`}
+      >
+        <div className="text-center">
+          <h1 className={`text-2xl font-bold ${textPrimary} mb-4`}>
+            {t("poetNotFound") || "Poet not found"}
+          </h1>
+          <p className={errorTextColor}>
+            {t("poetNotFoundMessage") ||
+              "The poet you're looking for doesn't exist."}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Back Button */}
-      <Link
-        to="/poets"
-        className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 mb-6 group"
-      >
-        <FaArrowLeft className="group-hover:-translate-x-1 transition" />
-        Back to Poets
-      </Link>
+    <div className={`min-h-screen ${bgColor} py-8`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Poet Header */}
+        <PoetHeader poet={poet} />
 
-      {/* Poet Header */}
-      <PoetHeader poet={poet} />
-
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Info and Achievements */}
-        <div className="lg:col-span-1">
-          <InfoCard poet={poet} />
-          <AchievementsCard achievements={poet.notableAchievements} />
-        </div>
-
-        {/* Right Column - Tabs and Legacy */}
-        <div className="lg:col-span-2">
-          {/* Tabs Section */}
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
-            <TabNavigation
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-              tabs={tabs}
-            />
-
-            <div className="p-6">
-              {activeTab === "biography" && <BiographyTab poet={poet} />}
-              {activeTab === "works" && <WorksTab works={poet.famousWorks} />}
-              {activeTab === "quotes" && (
-                <QuotesTab quotes={poet.famousQuotes} poetName={poet.name} />
-              )}
-            </div>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+          {/* Left Column - Biography and Details */}
+          <div className="lg:col-span-2 space-y-8">
+            <Biography poet={poet} />
+            <FamousWorks works={poet.famousWorks} />
+            <Quotes quotes={poet.famousQuotes} />
           </div>
 
-          {/* Legacy Section */}
-          <LegacySection legacy={poet.legacy} />
+          {/* Right Column - Sidebar Info */}
+          <div className="space-y-8">
+            <WritingStyle style={poet.writingStyle} themes={poet.themes} />
+            <AchievementsCard achievements={poet.notableAchievements} />
+            <Legacy legacy={poet.legacy} />
+          </div>
         </div>
       </div>
     </div>
