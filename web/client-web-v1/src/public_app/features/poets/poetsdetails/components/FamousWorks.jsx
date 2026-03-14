@@ -130,6 +130,23 @@ const FamousWorks = ({ works = [] }) => {
     }
   };
 
+  const getWorkCardHover = () => {
+    switch (themeName) {
+      case "forest":
+        return "hover:bg-green-100 dark:hover:bg-green-900/60";
+      case "lavender":
+        return "hover:bg-purple-100 dark:hover:bg-purple-900/60";
+      case "rose":
+        return "hover:bg-rose-100 dark:hover:bg-rose-900/60";
+      case "sepia":
+        return "hover:bg-amber-100 dark:hover:bg-amber-900/60";
+      case "dark":
+        return "hover:bg-gray-600";
+      default:
+        return "hover:bg-gray-100 dark:hover:bg-gray-600";
+    }
+  };
+
   const cardBg = getCardBg();
   const textPrimary = getTextPrimary();
   const textSecondary = getTextSecondary();
@@ -137,6 +154,7 @@ const FamousWorks = ({ works = [] }) => {
   const borderColor = getBorderColor();
   const iconColor = getIconColor();
   const workCardBg = getWorkCardBg();
+  const workCardHover = getWorkCardHover();
 
   if (!works || works.length === 0) {
     return (
@@ -186,7 +204,10 @@ const FamousWorks = ({ works = [] }) => {
               : work?.description || "";
 
           return (
-            <div key={index} className={`${workCardBg} rounded-xl p-4`}>
+            <div
+              key={index}
+              className={`${workCardBg} ${workCardHover} rounded-xl p-4 transition-colors duration-200`}
+            >
               <div className="flex justify-between items-start mb-2">
                 <h4 className={`font-semibold ${textPrimary}`}>{workTitle}</h4>
                 {work.year && (
