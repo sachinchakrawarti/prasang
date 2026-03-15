@@ -18,6 +18,8 @@ import Prose from "../public_app/features/prose/Prose";
 import Settings from "../public_app/layout/navbar/components/Settings";
 import Login from "../public_app/features/auth/Login";
 import Profile from "../public_app/features/auth/Profile";
+import SignUp from "../public_app/features/auth/SignUp";
+import Dashboard from "../public_app/features/auth/Dashboard";
 
 import TestPage from "../public_app/pages/TestPage";
 import TestPageDetails from "../public_app/pages/TestPageDetails";
@@ -87,6 +89,8 @@ const PublicRoutes = () => {
         <Route path="controls-preferences" element={<ControlsPreferences />} />
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="signup" element={<SignUp />} />
+        <Route path="dashboard" element={<Dashboard />} />
 
         {/* Contributors routes */}
         <Route path="contributors" element={<Contributors />} />
