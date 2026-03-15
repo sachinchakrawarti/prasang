@@ -1,5 +1,6 @@
+// src/public_app/layout/navbar/navbardesktop/NavbarDesktop.jsx
 import { Link, NavLink } from "react-router-dom";
-import { useState, useEffect } from "react"; // Add useEffect
+import { useState, useEffect } from "react";
 import {
   FaFeather,
   FaSearch,
@@ -9,20 +10,30 @@ import {
   FaRobot,
   FaCog,
   FaBell,
+  FaUser,
+  FaSignInAlt,
+  FaUserPlus,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import { useTheme } from "../../../../theme";
 import { useNavbarTranslation } from "../../../../hooks/useNavbarTranslation";
+import { useAuth } from "../../../../context/AuthContext";
 import SearchBar from "../components/SearchBar";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import Notification from "../components/Notification";
+import Control from "./components/Control";
 
 const NavbarDesktop = () => {
   console.log("🟢 NavbarDesktop rendering start");
 
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const { theme, themeName } = useTheme();
+  const { user, isAuthenticated, logout } = useAuth();
+
   console.log("🟢 Theme loaded:", { themeName, themeExists: !!theme });
+  console.log("🟢 Auth state:", { isAuthenticated, user: user?.name });
 
   let navTranslation;
   try {
@@ -45,6 +56,13 @@ const NavbarDesktop = () => {
 
   const handleDropdownEnter = (index) => setOpenDropdown(index);
   const handleDropdownLeave = () => setOpenDropdown(null);
+  const handleUserMenuToggle = () => setShowUserMenu(!showUserMenu);
+  const handleUserMenuClose = () => setShowUserMenu(false);
+
+  const handleLogout = () => {
+    logout();
+    setShowUserMenu(false);
+  };
 
   // Theme-based helper functions
   const getAccentBgClass = () => {
@@ -155,7 +173,7 @@ const NavbarDesktop = () => {
         {/* Decorative top border - theme aware */}
         <div className={`h-1 bg-gradient-to-r ${gradientBorder}`}></div>
 
-        {/* First Row: Logo, Search, Icons, Sign Up */}
+        {/* First Row: Logo, Search, Icons, Auth Buttons */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo - theme aware */}
@@ -195,34 +213,127 @@ const NavbarDesktop = () => {
               {/* Theme Switcher Component */}
               <ThemeSwitcher />
 
-              {/* Notifications Component */}
-              <Notification
-                notifications={notifications}
-                position="right"
-                maxHeight="max-h-96"
-                width="w-80"
-                showCount={true}
-              />
+              {/* Control Component */}
+              <Control />
 
-              {/* Settings Icon - Links to Settings Page */}
-              <Link
-                to="/settings"
-                className={`p-2 ${theme?.text?.accent || "text-amber-600"} ${hoverBgClass} rounded-full transition-all relative group`}
-                aria-label="Settings"
-              >
-                <FaCog size={18} />
-                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap">
-                  Settings
-                </span>
-              </Link>
+              {/* Notifications Component - Only show when logged in */}
+              {isAuthenticated && (
+                <Notification
+                  notifications={notifications}
+                  position="right"
+                  maxHeight="max-h-96"
+                  width="w-80"
+                  showCount={true}
+                />
+              )}
 
-              {/* Sign Up Button */}
-              <Link
-                to="/signup"
-                className={`${theme?.button?.primary || "bg-gradient-to-r from-amber-500 to-yellow-500 text-white"} px-5 py-2 rounded-full shadow-md hover:shadow-lg ml-1`}
-              >
-                Sign Up
-              </Link>
+              {/* Auth Section - Login/Signup or User Profile */}
+              {!isAuthenticated ? (
+                <>
+                  <Link
+                    to="/login"
+                    className={`${theme?.button?.secondary || "border-2 border-amber-500 text-amber-600"} px-4 py-1.5 rounded-full text-sm font-medium hover:shadow-md transition-all whitespace-nowrap flex items-center gap-1`}
+                  >
+                    <FaSignInAlt size={14} />
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className={`${theme?.button?.primary || "bg-gradient-to-r from-amber-500 to-yellow-500 text-white"} px-4 py-1.5 rounded-full text-sm font-medium shadow-md hover:shadow-lg transition-all whitespace-nowrap flex items-center gap-1`}
+                  >
+                    <FaUserPlus size={14} />
+                    Sign Up
+                  </Link>
+                </>
+              ) : (
+                <div className="relative">
+                  {/* User Menu Button */}
+                  <button
+                    onClick={handleUserMenuToggle}
+                    className={`flex items-center gap-2 px-3 py-1.5 ${hoverBgClass} rounded-full transition-all`}
+                  >
+                    {user?.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        className="w-6 h-6 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div
+                        className={`w-6 h-6 rounded-full ${accentBgClass} flex items-center justify-center`}
+                      >
+                        <FaUser size={12} className={theme?.text?.accent} />
+                      </div>
+                    )}
+                    <span
+                      className={`text-sm font-medium ${theme?.text?.primary}`}
+                    >
+                      {user?.name?.split(" ")[0]}
+                    </span>
+                    <FaChevronDown
+                      size={10}
+                      className={`${theme?.text?.secondary} transition-transform duration-200 ${
+                        showUserMenu ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {/* User Dropdown Menu */}
+                  {showUserMenu && (
+                    <div
+                      className={`absolute right-0 mt-2 w-56 ${theme?.background?.card || "bg-white"} rounded-2xl shadow-xl border ${theme?.border?.accent || "border-amber-200"} py-2 z-50`}
+                      onMouseLeave={handleUserMenuClose}
+                    >
+                      {/* User Info */}
+                      <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                        <p
+                          className={`text-sm font-semibold ${theme?.text?.primary}`}
+                        >
+                          {user?.name}
+                        </p>
+                        <p className={`text-xs ${theme?.text?.tertiary}`}>
+                          @{user?.username}
+                        </p>
+                      </div>
+
+                      {/* Menu Items */}
+                      <Link
+                        to="/profile"
+                        onClick={handleUserMenuClose}
+                        className={`flex items-center gap-3 px-4 py-2 text-sm ${theme?.text?.secondary} ${hoverBgClass} transition-colors`}
+                      >
+                        <FaUser size={14} className={theme?.icon?.primary} />
+                        Profile
+                      </Link>
+                      <Link
+                        to="/dashboard"
+                        onClick={handleUserMenuClose}
+                        className={`flex items-center gap-3 px-4 py-2 text-sm ${theme?.text?.secondary} ${hoverBgClass} transition-colors`}
+                      >
+                        <FaFeather size={14} className={theme?.icon?.primary} />
+                        Dashboard
+                      </Link>
+                      <Link
+                        to="/settings"
+                        onClick={handleUserMenuClose}
+                        className={`flex items-center gap-3 px-4 py-2 text-sm ${theme?.text?.secondary} ${hoverBgClass} transition-colors`}
+                      >
+                        <FaCog size={14} className={theme?.icon?.primary} />
+                        Settings
+                      </Link>
+
+                      {/* Logout */}
+                      <button
+                        onClick={handleLogout}
+                        className={`w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 ${hoverBgClass} transition-colors border-t border-gray-200 dark:border-gray-700 mt-2 pt-2`}
+                      >
+                        <FaSignOutAlt size={14} />
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

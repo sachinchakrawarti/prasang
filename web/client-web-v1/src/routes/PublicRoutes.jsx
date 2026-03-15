@@ -16,6 +16,9 @@ import PoemsTypes from "../public_app/features/poemstypes/PoemsTypes";
 import Prose from "../public_app/features/prose/Prose";
 
 import Settings from "../public_app/layout/navbar/components/Settings";
+import Login from "../public_app/features/auth/Login";
+import Profile from "../public_app/features/auth/Profile";
+
 import TestPage from "../public_app/pages/TestPage";
 import TestPageDetails from "../public_app/pages/TestPageDetails";
 import Contributors from "../public_app/features/contributors/Contributors";
@@ -24,6 +27,8 @@ import ContributorsDetails from "../public_app/features/contributors/Contributor
 // poem type components
 import Gazal from "../public_app/features/poemstypes/components/gazal/Gazal";
 import Sonnets from "../public_app/features/poemstypes/components/sonnets/Sonnets";
+
+import ControlsPreferences from "../public_app/features/controlspreferences/ControlsPreferences";
 
 // Couplet components
 import CoupletsPage from "../public_app/features/poems/CoupletsPage";
@@ -79,6 +84,9 @@ const PublicRoutes = () => {
 
         {/* Settings */}
         <Route path="settings" element={<Settings />} />
+        <Route path="controls-preferences" element={<ControlsPreferences />} />
+        <Route path="login" element={<Login />} />
+        <Route path="profile" element={<Profile />} />
 
         {/* Contributors routes */}
         <Route path="contributors" element={<Contributors />} />
