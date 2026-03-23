@@ -8,6 +8,7 @@ import {
   FaGlobe,
   FaCalendarAlt,
 } from "react-icons/fa";
+import { useTheme } from "../../../../../theme";
 import SonnetsCard from "./SonnetsCard";
 
 const poets = [
@@ -84,56 +85,190 @@ const poets = [
 ];
 
 const Sonnets = () => {
+  const { themeName } = useTheme();
+
+  // Theme-based styling
+  const getBgColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "bg-green-50 dark:bg-green-900/20";
+      case "lavender":
+        return "bg-purple-50 dark:bg-purple-900/20";
+      case "rose":
+        return "bg-rose-50 dark:bg-rose-900/20";
+      case "sepia":
+        return "bg-amber-50 dark:bg-amber-900/20";
+      case "dark":
+        return "bg-gray-900";
+      default:
+        return "bg-gray-50 dark:bg-gray-900";
+    }
+  };
+
+  const getCardBg = () => {
+    switch (themeName) {
+      case "forest":
+        return "bg-white dark:bg-green-900/20";
+      case "lavender":
+        return "bg-white dark:bg-purple-900/20";
+      case "rose":
+        return "bg-white dark:bg-rose-900/20";
+      case "sepia":
+        return "bg-white dark:bg-amber-900/20";
+      case "dark":
+        return "bg-gray-800";
+      default:
+        return "bg-white dark:bg-gray-800";
+    }
+  };
+
+  const getTextPrimary = () => {
+    switch (themeName) {
+      case "forest":
+        return "text-green-900 dark:text-green-100";
+      case "lavender":
+        return "text-purple-900 dark:text-purple-100";
+      case "rose":
+        return "text-rose-900 dark:text-rose-100";
+      case "sepia":
+        return "text-amber-900 dark:text-amber-100";
+      case "dark":
+        return "text-white";
+      default:
+        return "text-gray-900 dark:text-white";
+    }
+  };
+
+  const getTextSecondary = () => {
+    switch (themeName) {
+      case "forest":
+        return "text-green-700 dark:text-green-300";
+      case "lavender":
+        return "text-purple-700 dark:text-purple-300";
+      case "rose":
+        return "text-rose-700 dark:text-rose-300";
+      case "sepia":
+        return "text-amber-700 dark:text-amber-300";
+      case "dark":
+        return "text-gray-300";
+      default:
+        return "text-gray-600 dark:text-gray-300";
+    }
+  };
+
+  const getTextTertiary = () => {
+    switch (themeName) {
+      case "forest":
+        return "text-green-600 dark:text-green-400";
+      case "lavender":
+        return "text-purple-600 dark:text-purple-400";
+      case "rose":
+        return "text-rose-600 dark:text-rose-400";
+      case "sepia":
+        return "text-amber-600 dark:text-amber-400";
+      case "dark":
+        return "text-gray-400";
+      default:
+        return "text-gray-500 dark:text-gray-400";
+    }
+  };
+
+  const getIconColor = () => {
+    switch (themeName) {
+      case "forest":
+        return "text-green-500 dark:text-green-400";
+      case "lavender":
+        return "text-purple-500 dark:text-purple-400";
+      case "rose":
+        return "text-rose-500 dark:text-rose-400";
+      case "sepia":
+        return "text-amber-500 dark:text-amber-400";
+      case "dark":
+        return "text-gray-400";
+      default:
+        return "text-amber-500 dark:text-amber-400";
+    }
+  };
+
+  const getGradient = () => {
+    switch (themeName) {
+      case "forest":
+        return "from-green-500 to-emerald-600";
+      case "lavender":
+        return "from-purple-500 to-pink-600";
+      case "rose":
+        return "from-rose-500 to-pink-600";
+      case "sepia":
+        return "from-amber-500 to-yellow-600";
+      case "dark":
+        return "from-gray-700 to-gray-900";
+      default:
+        return "from-amber-500 to-yellow-500";
+    }
+  };
+
+  const bgColor = getBgColor();
+  const cardBg = getCardBg();
+  const textPrimary = getTextPrimary();
+  const textSecondary = getTextSecondary();
+  const textTertiary = getTextTertiary();
+  const iconColor = getIconColor();
+  const gradient = getGradient();
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ${bgColor}`}>
       {/* Header */}
       <div className="text-center mb-12">
         <div className="flex justify-center mb-4">
           <div className="relative">
-            <FaFeather className="text-5xl text-amber-500 animate-float" />
+            <FaFeather className={`text-5xl ${iconColor} animate-float`} />
             <FaStar className="text-yellow-400 absolute -top-2 -right-2 text-lg animate-pulse" />
           </div>
         </div>
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          <span className="bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
+          <span
+            className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}
+          >
             Sonnets Through the Ages
           </span>
         </h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <p className={textSecondary}>
           Explore the most beautiful sonnets from master poets across centuries
           and continents
         </p>
       </div>
 
       {/* Stats Bar */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <div className={`${cardBg} rounded-2xl shadow-lg p-6 mb-8`}>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="text-2xl">📜</span>
             <div>
-              <span className="font-bold text-gray-800">
+              <span className={`font-bold ${textPrimary}`}>
                 {poets.length} Poets
               </span>
-              <p className="text-xs text-gray-500">Featured sonneteers</p>
+              <p className={`text-xs ${textTertiary}`}>Featured sonneteers</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-2xl">✨</span>
             <div>
-              <span className="font-bold text-gray-800">
+              <span className={`font-bold ${textPrimary}`}>
                 {poets.reduce((acc, poet) => acc + poet.sonnetsCount, 0)}+
                 Sonnets
               </span>
-              <p className="text-xs text-gray-500">Across all collections</p>
+              <p className={`text-xs ${textTertiary}`}>
+                Across all collections
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-2xl">🌍</span>
             <div>
-              <span className="font-bold text-gray-800">
+              <span className={`font-bold ${textPrimary}`}>
                 {new Set(poets.map((p) => p.country)).size} Countries
               </span>
-              <p className="text-xs text-gray-500">Global tradition</p>
+              <p className={`text-xs ${textTertiary}`}>Global tradition</p>
             </div>
           </div>
         </div>
@@ -147,39 +282,49 @@ const Sonnets = () => {
       </div>
 
       {/* Info Section */}
-      <div className="mt-16 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl p-8">
+      <div
+        className={`mt-16 bg-gradient-to-r ${gradient} bg-opacity-10 rounded-2xl p-8`}
+      >
         <h2 className="text-2xl font-bold text-center mb-6">
-          <span className="bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
+          <span
+            className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}
+          >
             About the Sonnet Form
           </span>
         </h2>
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl p-5 shadow-md">
-            <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mb-3">
+          <div className={`${cardBg} rounded-xl p-5 shadow-md`}>
+            <div
+              className={`w-10 h-10 ${iconColor} bg-opacity-10 rounded-lg flex items-center justify-center mb-3`}
+            >
               <span className="text-xl">📏</span>
             </div>
-            <h3 className="font-bold text-gray-800 mb-2">Structure</h3>
-            <p className="text-sm text-gray-600">
+            <h3 className={`font-bold ${textPrimary} mb-2`}>Structure</h3>
+            <p className={`text-sm ${textSecondary}`}>
               14 lines, iambic pentameter, with various rhyme schemes
               (Shakespearean, Petrarchan, Spenserian)
             </p>
           </div>
-          <div className="bg-white rounded-xl p-5 shadow-md">
-            <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mb-3">
+          <div className={`${cardBg} rounded-xl p-5 shadow-md`}>
+            <div
+              className={`w-10 h-10 ${iconColor} bg-opacity-10 rounded-lg flex items-center justify-center mb-3`}
+            >
               <span className="text-xl">❤️</span>
             </div>
-            <h3 className="font-bold text-gray-800 mb-2">Themes</h3>
-            <p className="text-sm text-gray-600">
+            <h3 className={`font-bold ${textPrimary} mb-2`}>Themes</h3>
+            <p className={`text-sm ${textSecondary}`}>
               Love, beauty, time, mortality, nature, politics, faith, and the
               nature of poetry itself
             </p>
           </div>
-          <div className="bg-white rounded-xl p-5 shadow-md">
-            <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mb-3">
+          <div className={`${cardBg} rounded-xl p-5 shadow-md`}>
+            <div
+              className={`w-10 h-10 ${iconColor} bg-opacity-10 rounded-lg flex items-center justify-center mb-3`}
+            >
               <span className="text-xl">📜</span>
             </div>
-            <h3 className="font-bold text-gray-800 mb-2">Origin</h3>
-            <p className="text-sm text-gray-600">
+            <h3 className={`font-bold ${textPrimary} mb-2`}>Origin</h3>
+            <p className={`text-sm ${textSecondary}`}>
               Originated in 13th century Italy with Petrarch, popularized in
               England by Shakespeare and others
             </p>

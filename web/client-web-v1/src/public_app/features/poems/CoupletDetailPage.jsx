@@ -1,6 +1,7 @@
 // src/public_app/features/poems/CoupletDetailPage.jsx
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useTts } from "tts-react";
 import {
   FaArrowLeft,
   FaQuoteLeft,
@@ -19,26 +20,33 @@ import {
   FaHeart,
   FaComment,
   FaEye,
+  FaVolumeUp,
+  FaPause,
+  FaPlay,
+  FaStop,
+  FaSpinner,
 } from "react-icons/fa";
 import { useTheme } from "../../../theme";
 import { coupletsData, getCoupletById } from "./CoupletData";
+import "./CoupletDetailPage.css";
 
 const CoupletDetailPage = () => {
   const { id } = useParams();
   const [couplet, setCouplet] = useState(null);
-  const [showRomanization, setShowRomanization] = useState(true);
+  const [showRomanization, setShowRomanization] = useState(false);
   const [showTranslations, setShowTranslations] = useState(false);
   const [selectedTranslation, setSelectedTranslation] = useState("english");
   const [saved, setSaved] = useState(false);
   const [copied, setCopied] = useState(false);
   const [relatedCouplets, setRelatedCouplets] = useState([]);
+  const [ttsSupported, setTtsSupported] = useState(true);
+
   const { theme, themeName } = useTheme();
 
   useEffect(() => {
     const foundCouplet = getCoupletById(id);
     setCouplet(foundCouplet);
 
-    // Find related couplets (same poet or language)
     if (foundCouplet) {
       const related = coupletsData
         .filter(
@@ -50,9 +58,49 @@ const CoupletDetailPage = () => {
         .slice(0, 3);
       setRelatedCouplets(related);
     }
+
+    if (!window.speechSynthesis) {
+      setTtsSupported(false);
+    }
   }, [id]);
 
-  // Theme-based helper functions
+  const getTextToSpeak = () => {
+    if (!couplet) return "";
+    return couplet.original.text;
+  };
+
+  const getLanguageCode = () => {
+    if (!couplet) return "en-US";
+    switch (couplet.language?.toLowerCase()) {
+      case "urdu":
+        return "ur-PK";
+      case "arabic":
+        return "ar-SA";
+      case "persian":
+        return "fa-IR";
+      case "hindi":
+        return "hi-IN";
+      default:
+        return "en-US";
+    }
+  };
+
+  const { ttsChildren, play, pause, stop, state } = useTts({
+    children: getTextToSpeak(),
+    lang: getLanguageCode(),
+    markTextAsSpoken: true,
+    markColor: "#f59e0b",
+    rate: 0.9,
+    autoPlay: false,
+    onError: (error) => console.error("TTS Error:", error),
+  });
+
+  useEffect(() => {
+    return () => {
+      stop();
+    };
+  }, [stop]);
+
   const getHeaderGradient = () => {
     switch (themeName) {
       case "forest":
@@ -117,6 +165,23 @@ const CoupletDetailPage = () => {
         return "bg-gray-700 text-gray-300 hover:bg-gray-600";
       default:
         return "bg-amber-100 text-amber-700 hover:bg-amber-200";
+    }
+  };
+
+  const getTTSButtonClass = () => {
+    switch (themeName) {
+      case "forest":
+        return "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400";
+      case "lavender":
+        return "bg-purple-100 text-purple-700 hover:bg-purple-200 dark:bg-purple-900/30 dark:text-purple-400";
+      case "rose":
+        return "bg-rose-100 text-rose-700 hover:bg-rose-200 dark:bg-rose-900/30 dark:text-rose-400";
+      case "sepia":
+        return "bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-900/30 dark:text-amber-400";
+      case "dark":
+        return "bg-gray-700 text-gray-300 hover:bg-gray-600";
+      default:
+        return "bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-900/30 dark:text-amber-400";
     }
   };
 
@@ -195,6 +260,7 @@ const CoupletDetailPage = () => {
   const headerGradient = getHeaderGradient();
   const avatarGradient = getAvatarGradient();
   const romanizationButtonClass = getRomanizationButtonClass();
+  const ttsButtonClass = getTTSButtonClass();
   const themeBadgeClass = getThemeBadgeClass();
   const relatedCardHoverClass = getRelatedCardHoverClass();
 
@@ -307,39 +373,95 @@ const CoupletDetailPage = () => {
                 <FaLanguage className={theme.icon.primary} />
                 Original {couplet.language}
               </h2>
-              <button
-                onClick={() => setShowRomanization(!showRomanization)}
-                className={`text-sm px-4 py-2 rounded-full transition ${romanizationButtonClass}`}
-              >
-                {showRomanization ? "Hide" : "Show"} Romanization
-              </button>
-            </div>
-
-            {/* Original text */}
-            <div className="space-y-3 font-serif">
-              {couplet.original.text.split("\n").map((line, idx) => (
-                <p
-                  key={idx}
-                  className={`text-2xl ${theme.text.primary} leading-relaxed`}
+              <div className="flex gap-2">
+                {/* TTS Controls */}
+                {ttsSupported && (
+                  <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-full p-1">
+                    {state.isPlaying || state.isPaused ? (
+                      <>
+                        <button
+                          onClick={pause}
+                          className={`p-2 rounded-full transition ${ttsButtonClass}`}
+                          title="Pause"
+                        >
+                          <FaPause size={14} />
+                        </button>
+                        <button
+                          onClick={stop}
+                          className={`p-2 rounded-full transition ${ttsButtonClass}`}
+                          title="Stop"
+                        >
+                          <FaStop size={14} />
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={play}
+                        className={`p-2 rounded-full transition ${ttsButtonClass}`}
+                        title="Listen to poem"
+                        disabled={state.isLoading}
+                      >
+                        {state.isLoading ? (
+                          <FaSpinner className="animate-spin" size={14} />
+                        ) : (
+                          <FaPlay size={14} />
+                        )}
+                      </button>
+                    )}
+                  </div>
+                )}
+                <button
+                  onClick={() => setShowRomanization(!showRomanization)}
+                  className={`text-sm px-4 py-2 rounded-full transition ${romanizationButtonClass}`}
                 >
-                  {line}
-                </p>
-              ))}
+                  {showRomanization ? "Hide" : "Show"} Romanization
+                </button>
+              </div>
             </div>
 
-            {/* Romanization */}
-            {showRomanization && couplet.original.romanization && (
-              <div className={`mt-6 pt-6 border-t ${theme.border.light}`}>
-                <p className={`text-sm ${theme.text.tertiary} mb-3`}>
-                  Romanization:
-                </p>
-                {couplet.original.romanization.split("\n").map((line, idx) => (
-                  <p key={idx} className={theme.text.secondary}>
-                    {line}
-                  </p>
-                ))}
+            {/* Poem Container */}
+            <div className="poem-container">
+              {/* Original text - Consistent styling whether TTS is active or not */}
+              <div className="poem-original">
+                {state.isPlaying || state.isPaused ? (
+                  // Show highlighted text when TTS is active - with consistent styling
+                  <div
+                    className={`text-2xl ${theme.text.primary} leading-relaxed space-y-3`}
+                  >
+                    {ttsChildren}
+                  </div>
+                ) : (
+                  // Show regular script text when TTS is not active
+                  couplet.original.text.split("\n").map((line, idx) => (
+                    <p
+                      key={idx}
+                      className={`text-2xl ${theme.text.primary} leading-relaxed`}
+                    >
+                      {line}
+                    </p>
+                  ))
+                )}
               </div>
-            )}
+
+              {/* Romanization - Only shown when toggled ON */}
+              {showRomanization && couplet.original.romanization && (
+                <div className="poem-romanization mt-6 pt-6 border-t-2 border-dashed border-amber-300 dark:border-amber-700">
+                  <p
+                    className={`text-sm font-medium ${theme.text.accent} mb-3 flex items-center gap-2`}
+                  >
+                    <FaLanguage className={theme.icon.primary} />
+                    Romanization:
+                  </p>
+                  {couplet.original.romanization
+                    .split("\n")
+                    .map((line, idx) => (
+                      <p key={idx} className={`${theme.text.secondary} italic`}>
+                        {line}
+                      </p>
+                    ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* AI Translations */}
